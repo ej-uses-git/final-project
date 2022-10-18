@@ -22,12 +22,14 @@ router.get("/:userId/info", async (req, res, next) => {
         u.permission,
         o.order_id
       FROM user AS u
-      JOIN order AS o
+      JOIN \`order\` AS o
         USING (user_id)
-      WHERE user_id = ${req.params.userId}`
+      WHERE 
+        u.user_id = ${req.params.userId}
+        AND o.status = 'cart'`
     );
     console.log("\n== result ==\n", result, "\n");
-    res.send(result[0]);
+    res.json(result[0]);
   } catch (error) {
     if (!error.fatal) await end();
     console.log(error);
@@ -37,16 +39,33 @@ router.get("/:userId/info", async (req, res, next) => {
 
 // GET Cart For User
 router.get("/:userId/cart/:cartId", async (req, res, next) => {
-  const {connect, query, end} = makeConnection();
+  const { connect, query, end } = makeConnection();
   let result;
   try {
     await connect();
     result = await query(
-      ``
-    )
+      `SELECT 
+        oi.amount,
+        p.product_name,
+        i.*
+      FROM \`order\` AS o
+      JOIN order_item AS oi
+        USING (order_id)
+      JOIN item AS i
+        USING (item_id)
+      JOIN product AS p
+        USING (product_id)
+      WHERE o.order_id = ${req.params.cartId}
+      AND o.status = 'cart'`
+    );
+    res.json(result);
   } catch (error) {
-    
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
   }
 });
+
+
 
 module.exports = router;
