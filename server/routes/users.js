@@ -13,8 +13,17 @@ router.get("/:userId/info", async (req, res, next) => {
   try {
     await connect();
     result = await query(
-      `SELECT user_id, user_name, email
-      FROM user
+      `SELECT 
+        u.user_id, 
+        u.user_name, 
+        u.email, 
+        u.address, 
+        u.phone_number, 
+        u.permission,
+        o.order_id
+      FROM user AS u
+      JOIN order AS o
+        USING (user_id)
       WHERE user_id = ${req.params.userId}`
     );
     console.log("\n== result ==\n", result, "\n");
