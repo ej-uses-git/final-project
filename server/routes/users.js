@@ -112,7 +112,7 @@ router.get("/:userId/payment%20methods", async (req, res, next) => {
 
 //* POST REQUESTS
 // POST new payment info
-router.get("/:userId/pay", async (req, res, next) => {
+router.post("/:userId/pay", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
   const createPay =
     `INSERT INTO payment_info (credit_number, cvv, expiration_date, user_id, active) ` +
