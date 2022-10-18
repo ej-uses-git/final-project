@@ -91,9 +91,9 @@
   - ! Client adds body to cache independently
   - ! queries executed in the order above
 
-#### Product
+#### Product [[works]]
 
-- POST New Product
+- POST New Product [[works]]
   1. URL: `/api/products`
   2. Body: `{ productName, description, typeId, cost, brand }`
   3. Query: `INSERT INTO product (product_name, description, type_id, cost, brand) ` +
