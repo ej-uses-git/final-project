@@ -6,6 +6,7 @@ const safelyEscape = require("../utilities/safelyEscape");
 
 // /api/users
 
+//* GET REQUESTS
 // GET User Info
 router.get("/:userId/info", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
@@ -90,19 +91,8 @@ router.get("/:userId/purchase%20history", async (req, res, next) => {
   }
 });
 
-/*- ADD Payment Info
-  1. URL: `/api/users/:userId/pay`
-  2. Body: `{ creditNum, cvv, expDate }`
-  3. Query: `UPDATE payment_info SET active = false;`
-  4. Query: `INSERT INTO payment_info (credit_number, cvv, expiration_date, user_id, active) ` +
-     `VALUES(${body.creditNum}, ${body.cvv}, "${body.expDate}", ${req.params.userId}, "active");`
-  5. ! active = true
-  6. ! server should change active payment to be inactive first
-  7. Response: `LAST_INSERT_ID()` | error
-  - ! Client adds body to cache independently
-  - ! queries executed in the order above */
-
-/* POST new payment info*/
+//* POST REQUESTS
+// POST new payment info
 router.get("/:userId/pay", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
   const createPay =
