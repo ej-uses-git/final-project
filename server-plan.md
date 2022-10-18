@@ -41,17 +41,20 @@
 - CHECK Login Info
   1. URL: `/usermanage/login`
   2. Body: `{ username, (encrypted) password }`
-  3. Query: `SELECT `
+  3. Query: `SELECT user_id FROM user ` +
+     `WHERE username = "${body.username}" AND password = "${body.password}";`
   4. Response: `user_id` | `false` (user doesn't exist) | error
 - CHECK User Existence
   1. URL: `/usermanage/register/check`
   2. Body: `{ username, email }`
-  3. ???
+  3. Query: `SELECT * FROM user WHERE username = ${body.username} OR email = ${body.email};`
   4. Response: `true` (user exists) | `false` (user doesn't exist) | error
 - REGISTER New User
   1. URL: `/usermanage/register`
   2. Body: `{ username, (encrypted) password, email, phoneNumber, address, permission }`
-  3. ???
+  3. Query: `INSERT INTO user (username, password, email, phone_number, address, permission) ` +
+     `VALUES(${body.username}, ${body.password}, ${body.email}, ${body.phoneNumber}, ${body.address}, ${body.permission});`
+     Query: `SELECT LAST_INSERT_ID() FROM user;`
   4. Response: `LAST_INSERT_ID()` | error
   - ! Client adds body to cache independently
 
