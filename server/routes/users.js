@@ -16,7 +16,7 @@ router.get("/:userId/info", async (req, res, next) => {
     result = await query(
       `SELECT 
         u.user_id, 
-        u.user_name, 
+        u.username, 
         u.email, 
         u.address, 
         u.phone_number, 
@@ -126,6 +126,33 @@ router.post("/:userId/pay", async (req, res, next) => {
     const selectIdResult = await query(selectId);
     await end();
     return res.json(selectIdResult[0]["LAST_INSERT_ID()"]);
+  } catch (error) {
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+//* PUT REQUESTS
+// PUT Fulfill Order
+router.put("/:userId/activepay", async (req, res, next) => {
+  const { connect, query, end } = makeConnection();
+  let result;
+  try {
+    await connect();
+    result = await query(
+      `UPDATE payment_info 
+      SET active = false
+      WHERE user_id = ${req.params.userId};`
+    );
+    if (result instanceof Error) throw result;
+    result = await query(
+      `UPDATE payment_info SET active = true
+      WHERE payment_info_id = ${req.body}`
+    );
+    if (result instanceof Error) throw result;
+    await end();
+    result.json(true);
   } catch (error) {
     if (!error.fatal) await end();
     console.log(error);
