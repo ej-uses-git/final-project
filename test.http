@@ -3,31 +3,31 @@
 
 # GET
 # User
-# GET User Info
+### GET User Info
 GET http://localhost:8090/api/users/2/info
 
-# GET Cart For User
+### GET Cart For User
 GET http://localhost:8090/api/users/1/cart/2
 
-# GET Purchase History For User
+### GET Purchase History For User
 GET http://localhost:8090/api/users/2/purchase%20history
 
-# GET Payment Methods For User
+### GET Payment Methods For User
 GET http://localhost:8090/api/users/3/payment%20methods
 
 # Product
-# GET Products For Type
+### GET Products For Type
 GET http://localhost:8090/api/types/1/products
 
-# GET Items For Product
+### GET Items For Product
 GET http://localhost:8090/api/products/1/items
 
-# GET Photos For Item
+### GET Photos For Item
 GET http://localhost:8090/api/items/1/photos
 
 # POST
 # Login/Register
-# CHECK Login Info
+### CHECK Login Info
 POST http://localhost:5000/usermanage/login
 Content-Type: application/json
 
@@ -36,7 +36,7 @@ Content-Type: application/json
   "password": "sarapassword"
 }
 
-# CHECK User Existence
+### CHECK User Existence
 POST http://localhost:5000/usermanage/register/check
 Content-Type: application/json
 
@@ -45,7 +45,7 @@ Content-Type: application/json
   "password": "saramail@gmail.commm"
 }
 
-# REGISTER New User
+### REGISTER New User
 POST http://localhost:5000/usermanage/register
 Content-Type: application/json
 
@@ -59,7 +59,7 @@ Content-Type: application/json
 }
 
 # User
-# ADD Payment Info
+### ADD Payment Info
 POST http://localhost:8090/api/users/3/pay
 Content-Type: application/json
 
@@ -70,7 +70,7 @@ Content-Type: application/json
 }
 
 # Product
-# POST New Product
+### POST New Product
 POST http://localhost:8090/api/products
 Content-Type: application/json
 
@@ -82,7 +82,7 @@ Content-Type: application/json
   "brand": "JBL"
 }
 
-# POST New Item
+### POST New Item
 POST http://localhost:8090/api/products/4
 Content-Type: application/json
 
@@ -92,11 +92,11 @@ Content-Type: application/json
 }
 
 # Orders
-# POST New Order
+### POST New Order
 POST http://localhost:8090/api/orders/neworder/4
 Content-Type: application/json 
 
-# ADD Item To Order
+### ADD Item To Order
 POST http://localhost:8090/api/orders/4/items
 Content-Type: application/json
 
@@ -105,13 +105,13 @@ Content-Type: application/json
   "amount": "2"
 }
 
-# ADD Photo To Product
+### ADD Photo To Product
 POST http://localhost:8090/api/items/:itemId/photos
 Content-Type: image/jpeg, image/png
 
 # PUT
 # User
-# CHANGE Active Payment
+### CHANGE Active Payment
 PUT http://localhost:8090/api/users/:userId/activepay
 Content-Type: application/json
 
@@ -122,7 +122,7 @@ Content-Type: application/json
 # EDIT Product
 
 # Orders
-# PUT Fulfill Order
+### PUT Fulfill Order
 PUT http://localhost:8090/api/orders/2
 Content-Type: application/json
 
