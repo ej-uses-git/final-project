@@ -32,8 +32,8 @@ POST http://localhost:5000/usermanage/login
 Content-Type: application/json
 
 {
-  "username": "...",
-  "password": "... (encrypted)"
+  "username": "sara",
+  "password": "sarapassword"
 }
 
 # CHECK User Existence
@@ -41,8 +41,8 @@ POST http://localhost:5000/usermanage/register/check
 Content-Type: application/json
 
 { 
-  "username": "...", 
-  "password": "... (encrypted)"
+  "username": "sarahh", 
+  "password": "saramail@gmail.commm"
 }
 
 # REGISTER New User
@@ -50,12 +50,12 @@ POST http://localhost:5000/usermanage/register
 Content-Type: application/json
 
 {
-  "username": "...",
-  "password": "... (encrypted)",
-  "email": "...",
-  "phoneNumber": "...",
-  "address": "...",
-  "permission": "..."
+  "username": "david",
+  "password": "dabid",
+  "email": "david@hotmail",
+  "phoneNumber": "052-783-0987",
+  "address": "jerudalem, har hotzvim, 346",
+  "permission": "customer"
 }
 
 # User

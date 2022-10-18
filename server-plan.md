@@ -68,7 +68,7 @@
   1. URL: `/usermanage/register/check`
   2. Body: `{ username, email }`
   3. Query: `SELECT * FROM user WHERE username = "${body.username}" OR email = "${body.email}";`
-  4. Response: `true` (user exists) | `false` (user doesn't exist) | error
+  4. Response: `true` (can be created) | `false` (can not be created) | error
 - REGISTER New User
   1. URL: `/usermanage/register`
   2. Body: `{ username, (encrypted) password, email, phoneNumber, address, permission }`
