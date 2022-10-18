@@ -1,7 +1,9 @@
+const { dir } = require("console");
 const express = require("express");
 const router = express.Router();
 const fs = require("fs/promises");
 const path = require("path");
+const util = require("util");
 const makeConnection = require("../utilities/makeConnection");
 const safelyEscape = require("../utilities/safelyEscape");
 
@@ -49,28 +51,29 @@ router.post("/", async function (req, res, next) {
   }
 });
 
-/*  const { connect, query, end } = makeConnection();
-  const createProduct =
-    `INSERT INTO product (product_name, description, type_id, cost, brand) ` +
-    `VALUES("${req.body.productName}", "${req.body.description}", ${req.body.typeId}, ${req.body.cost}, "${req.body.brand}")`;
-  const selectId = `SELECT LAST_INSERT_ID();`;
+/* POST new product. */
+router.put("/:productId", async function (req, res, next) {
+  const { connect, query, end } = makeConnection();
+  const updateProduct =
+    `UPDATE product SET product_name = "${req.body.productName}", description = "${req.body.description}", type_id = ${req.body.typeId}, cost = ${req.body.cost}, brand = "${req.body.brand}" ` +
+    `WHERE product_id = ${req.params.productId}`;
+  const selectProduct = `SELECT * FROM product WHERE product_id = ${req.params.productId}`;
   try {
     await connect();
-    await query(createProduct);
-    const selectIdResult = await query(selectId);
-    const lastId = selectIdResult[0]["LAST_INSERT_ID()"];
-    const dirPath = path.join(
-      __dirname,
-      "../public/images/items/",
-      `${req.body.productName}${lastId}`
-    );
-    await query(
-      `UPDATE item SET photos = "${req.body.productName}${lastId}" WHERE item_id = ${lastId}`
-    );
+    await query(updateProduct);
+    let product = await query(selectProduct);
+    product = product[0];
+    if (!product) return res.send("product do not exist");
     await end();
-    const mkdirRes = await fs.mkdir(dirPath); */
+    return res.json();
+  } catch (error) {
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
 
-/* POST new item. */
+/* POST new item */
 router.post("/:productId", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
   const createItem =
@@ -89,15 +92,49 @@ router.post("/:productId", async function (req, res, next) {
     );
     await end();
 
-    const mkdirRes = await fs.mkdir(
-      path.join(
-        __dirname,
-        "../public/images/items",
-        `${productName[0].product_name}${lastId}`
-      )
+    const dirPath = path.join(
+      __dirname,
+      "../public/images/items",
+      `${productName[0].product_name}${lastId}`
+    );
+    console.log("path: ", dirPath);
+    try {
+      await fs.access(dirPath);
+    } catch (error) {
+      await fs.mkdir(dirPath);
+    } finally {
+      return res.json(lastId);
+    }
+  } catch (error) {
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
+/* POST upload main photo */
+router.post("/:productId/newphoto", async (req, res, next) => {
+  const { connect, query, end } = makeConnection();
+  let file;
+  try {
+    await connect();
+    console.log(req.files);
+    file = req.files?.file;
+    if (!file) return res.send(false);
+    const newPath = path.join(
+      __dirname,
+      "../public/images/mainphotos",
+      file.name
+    );
+    const err = await util.promisify(file.mv)(newPath);
+    if (err) throw new Error("couldn't upload file");
+
+    await query(
+      `UPDATE product SET main_photo = "${file.name}" WHERE product_id = ${req.params.productId}`
     );
 
-    return res.json(lastId);
+    await end();
+    res.send(true);
   } catch (error) {
     if (!error.fatal) await end();
     console.log(error);

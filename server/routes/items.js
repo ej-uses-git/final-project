@@ -36,22 +36,24 @@ router.get("/:itemId/photos", async (req, res, next) => {
 
 //* POST REQUESTS
 // UPLOAD New Photo For Item
-router.post("/:itemId/uplodaphotos", async (req, res, next) => {
+router.post("/:itemId/uploadphotos", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
   let dirName;
   try {
     await connect();
+
     dirName = await query(
       `SELECT photos
       FROM item
       WHERE item_id = ${req.params.itemId}`
     );
-    dirName = dirName[0]?.photos;
-    console.log(dirName);
-    if (!dirName) return res.json([]);
 
-    for (let key in req.files) {
-      const file = req.files[key];
+    dirName = dirName[0]?.photos;
+    if (!dirName) return res.json([]);
+    const files = req.files?.file;
+    if (!files) return res.send(false);
+
+    await files.forEach(async (file) => {
       const newPath = path.join(
         __dirname,
         "../public/images/items/",
@@ -60,7 +62,8 @@ router.post("/:itemId/uplodaphotos", async (req, res, next) => {
       );
       const err = await util.promisify(file.mv)(newPath);
       if (err) throw new Error("couldn't upload files");
-    }
+    });
+
     await end();
     res.json(true);
   } catch (error) {
