@@ -27,6 +27,7 @@ CREATE TABLE `item` (
   `item_color` tinytext NOT NULL,
   `item_amount` int NOT NULL,
   `product_id` int NOT NULL,
+  `photos` text NOT NULL,
   PRIMARY KEY (`item_id`),
   KEY `item_product_id_fk_idx` (`product_id`),
   CONSTRAINT `item_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
@@ -140,7 +141,7 @@ CREATE TABLE `product` (
   `product_name` text NOT NULL,
   `description` text NOT NULL,
   `type_id` int NOT NULL,
-  `photos` text NOT NULL,
+  `main_photo` text NOT NULL,
   `cost` int NOT NULL,
   `brand` tinytext NOT NULL,
   PRIMARY KEY (`product_id`),
@@ -220,7 +221,7 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `user_id` int NOT NULL AUTO_INCREMENT,
-  `user_name` text NOT NULL,
+  `username` text NOT NULL,
   `email` text NOT NULL,
   `address` text NOT NULL,
   `phone_number` tinytext NOT NULL,
@@ -248,4 +249,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-18 13:52:29
+-- Dump completed on 2022-10-18 14:23:05

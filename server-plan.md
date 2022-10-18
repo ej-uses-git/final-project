@@ -1,11 +1,8 @@
 # Data Server
 
-
 ---
 
-
 ## Store Database
-
 
 ### Tables:
 
@@ -26,35 +23,34 @@
 - GET User Info
   1. URL: `/api/users/:userId/info`
   2. ???
-  10. Response: `{ user_id, user_name, email, address, phone_number, permission, orderId (as cartId) }` | error
+  3. Response: `{ user_id, user_name, email, address, phone_number, permission, orderId (as cartId) }` | error
 - GET Cart For User
   1. URL: `/api/users/:userId/cart/:cartId`
   2. ???
-  10. Response: `[{ product_name, ...item.* }]` | error
+  3. Response: `[{ product_name, ...item.* }]` | error
 - GET Purchase History For User
   1. URL: `/api/users/:userId/purchase+history`
   2. ???
-  10. Response: `` | error
+  3. Response: `` | error
 - GET Payment Methods For User
   1. URL: `/api/users/:userId/payment+methods`
   2. ???
-  10. Response: `` | error
-
+  3. Response: `` | error
 
 #### Product
 
 - GET Products For Type
   1. URL: `/api/types/:typeId/products`
   2. ???
-  10. Response: `[Product {}, ...]` | error
+  3. Response: `[Product {}, ...]` | error
 - GET Items For Product
   1. URL: `/api/products/:productId/items`
   2. ???
-  10. Response: `[Item {}, ...]` | error
+  3. Response: `[Item {}, ...]` | error
 - GET Photos For Item
   1. URL: `/api/items/itemId/photos`
   2. ???
-  10. Response: `[photoPathname, ...]` | error
+  3. Response: `[photoPathname, ...]` | error
   <!-- /api/products/prodname
   <- [/images/photo1, /images/photo2] -->
 
@@ -65,17 +61,20 @@
 - CHECK Login Info
   1. URL: `/usermanage/login`
   2. Body: `{ username, (encrypted) password }`
-  3. ???
+  3. Query: `SELECT user_id FROM user ` +
+     `WHERE username = "${body.username}" AND password = "${body.password}";`
   4. Response: `user_id` | `false` (user doesn't exist) | error
 - CHECK User Existence
   1. URL: `/usermanage/register/check`
   2. Body: `{ username, email }`
-  3. ???
+  3. Query: `SELECT * FROM user WHERE username = ${body.username} OR email = ${body.email};`
   4. Response: `true` (user exists) | `false` (user doesn't exist) | error
 - REGISTER New User
   1. URL: `/usermanage/register`
   2. Body: `{ username, (encrypted) password, email, phoneNumber, address, permission }`
-  3. ???
+  3. Query: `INSERT INTO user (username, password, email, phone_number, address, permission) ` +
+     `VALUES(${body.username}, ${body.password}, ${body.email}, ${body.phoneNumber}, ${body.address}, ${body.permission});`
+     Query: `SELECT LAST_INSERT_ID() FROM user;`
   4. Response: `LAST_INSERT_ID()` | error
   - ! Client adds body to cache independently
 
