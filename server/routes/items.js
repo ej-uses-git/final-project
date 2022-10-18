@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs/promises");
 const path = require("path");
-
+const util = require("util");
 const makeConnection = require("../utilities/makeConnection");
 
 // /api/items
@@ -45,7 +45,8 @@ router.post("/:itemId/uplodaphotos", async (req, res, next) => {
       WHERE item_id = ${req.params.itemId}`
     );
     dirName = dirName[0]?.photos;
-    if (!result) return res.json([]);
+    console.log(dirName);
+    if (!dirName) return res.json([]);
 
     for (let key in req.files) {
       const file = req.files[key];
