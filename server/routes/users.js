@@ -58,6 +58,7 @@ router.get("/:userId/cart/:cartId", async (req, res, next) => {
       WHERE o.order_id = ${req.params.cartId}
       AND o.status = 'cart'`
     );
+    await end();
     res.json(result);
   } catch (error) {
     if (!error.fatal) await end();
@@ -65,7 +66,5 @@ router.get("/:userId/cart/:cartId", async (req, res, next) => {
     res.status(500).send(error);
   }
 });
-
-
 
 module.exports = router;
