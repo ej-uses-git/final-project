@@ -83,11 +83,11 @@ Content-Type: application/json
 }
 
 # POST New Item
-POST http://localhost:8090/api/products/2
+POST http://localhost:8090/api/products/3
 Content-Type: application/json
 
 {
-  "color": "yellow",
+  "color": "green",
   "amount": "3"
 }
 

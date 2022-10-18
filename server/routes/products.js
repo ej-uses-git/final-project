@@ -24,6 +24,7 @@ router.get("/:productId/items", async (req, res, next) => {
     console.log(error);
     res.status(500).send(error);
   }
+});
 
 /* POST new product. */
 router.post("/", async function (req, res, next) {
