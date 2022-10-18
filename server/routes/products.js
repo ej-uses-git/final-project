@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const SERVER_URL = require('../utilities/server-url.json')
 // /api/products
 
 /* GET users listing. */

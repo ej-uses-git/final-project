@@ -3,7 +3,6 @@ const router = express.Router();
 
 const makeConnection = require("../utilities/makeConnection");
 
-const SERVER_URL = require('../utilities/server-url.json')
 // /api/users
 
 // GET User Info
@@ -12,7 +11,7 @@ router.get("/:userId/info", async (req, res, next) => {
   let result;
   try {
     await connect();
-    result = await query()
+    result = await query(`${SERVER_URL}`)
   } catch (error) {
     
   }
