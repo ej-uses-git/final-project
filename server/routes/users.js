@@ -67,4 +67,26 @@ router.get("/:userId/cart/:cartId", async (req, res, next) => {
   }
 });
 
+// GET Purchase History For User
+router.get("/:userId/purchase%20history", async (req, res, next) => {
+  const { connect, query, end } = makeConnection();
+  let result;
+  try {
+    await connect();
+    result = await query(
+      `SELECT *
+      FROM purchase_history AS ph
+      JOIN \`order\` AS o
+        USING (order_id)
+      WHERE o.user_id = ${req.params.userId} `
+    );
+    await end();
+    res.json(result);
+  } catch (error) {
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;
