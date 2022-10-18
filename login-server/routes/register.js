@@ -4,6 +4,7 @@ const makeConnection = require("../utilities/makeConnection");
 
 // /usermanage/register
 
+/* POST new user */
 router.post("/", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
   const createUser =
@@ -17,11 +18,13 @@ router.post("/", async function (req, res, next) {
     await end();
     return res.json(selectIdResult[0]["LAST_INSERT_ID()"]);
   } catch (error) {
-    if (error instanceof Error) return res.send(error);
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 
-/* GET users listing. */
+/* POST new user verfication. */
 router.post("/check", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
   const sql = `SELECT * FROM user WHERE username = "${req.body.username}" OR email = "${req.body.email}";`;
@@ -32,7 +35,9 @@ router.post("/check", async function (req, res, next) {
     if (result.length) return res.send(false);
     return res.send(true);
   } catch (error) {
-    if (error instanceof Error) return res.send(error);
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 

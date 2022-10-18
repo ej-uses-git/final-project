@@ -4,7 +4,7 @@ const makeConnection = require("../utilities/makeConnection");
 
 // /usermanage/login
 
-/* GET users listing. */
+/* POST user login info verfication. */
 router.post("/", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
   const sql =
@@ -17,7 +17,9 @@ router.post("/", async function (req, res, next) {
     if (result.length) return res.json(result[0].user_id);
     return res.send(false);
   } catch (error) {
-    if (error instanceof Error) return res.send(error);
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
   }
 });
 

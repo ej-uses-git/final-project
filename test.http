@@ -41,7 +41,7 @@ POST http://localhost:5000/usermanage/register/check
 Content-Type: application/json
 
 { 
-  "username": "sarahh", 
+  "username": "sara", 
   "password": "saramail@gmail.commm"
 }
 
