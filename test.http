@@ -1,0 +1,8 @@
+# CHECK User Existence
+POST http://localhost:8080/usermanage/register/check
+Content-Type: application/json
+
+{ 
+  "username": "...", 
+  "password": "... (encrypted)"
+}
