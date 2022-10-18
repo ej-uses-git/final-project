@@ -75,19 +75,19 @@ POST http://localhost:8090/api/products
 Content-Type: application/json
 
 {
-  "productName": "laptop X1990",
-  "description": "18 inch super laptop",
+  "productName": "airpods xp4567",
+  "description": "big headphones soundproof",
   "typeId": "1",
-  "cost": "3500",
-  "brand": "Dell"
+  "cost": "600",
+  "brand": "JBL"
 }
 
 # POST New Item
-POST http://localhost:8090/api/products/1
+POST http://localhost:8090/api/products/4
 Content-Type: application/json
 
 {
-  "color": "gray",
+  "color": "green",
   "amount": "3"
 }
 

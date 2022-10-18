@@ -31,7 +31,7 @@ CREATE TABLE `item` (
   PRIMARY KEY (`item_id`),
   KEY `item_product_id_fk_idx` (`product_id`),
   CONSTRAINT `item_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (1,'blue',10,1,'link here'),(2,'blue',10,2,'link here'),(3,'blue',10,3,'link here'),(4,'red',10,1,'link here'),(5,'red',10,2,'link here'),(6,'red',10,3,'link here');
+INSERT INTO `item` VALUES (1,'blue',10,1,'link here'),(2,'blue',10,2,'link here'),(3,'blue',10,3,'link here'),(4,'red',10,1,'link here'),(5,'red',10,2,'link here'),(6,'red',10,3,'link here'),(8,'gray',3,2,'Sportsball 30008'),(9,'gray',3,1,'Lenovo x1209');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,4 +255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-18 16:35:52
+-- Dump completed on 2022-10-18 20:06:21
