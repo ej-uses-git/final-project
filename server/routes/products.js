@@ -5,18 +5,25 @@ const safelyEscape = require("../utilities/safelyEscape");
 
 // /api/products
 
-/*- POST New Product
-  1. URL: `/api/products`
-  2. Body: `{ productName, description, typeId, cost, brand }`
-  3. Query: `INSERT INTO product (product_name, description, type_id, cost, brand) ` +
-     `VALUES("${body.productName}", "${body.description}", ${body.typeId}, ${body.cost}, "${body.brand}")`
-  4. Response: `{ LAST_INSERT_ID(), ...Body, mainPhotoPath }` | error
-- POST New Item
-  1. `/api/products/:productId`
-  2. Body: `{ color, amount }`
-  3. Query: `INSERT INTO item (item_color, item_amount, product_id) ` +
-     `VALUES("${body.color}", ${body.amount}, ${req.param.productId})`
-  4. Response: `{ LAST_INSERT_ID(), ...Body, :productId }` | error */
+//* GET REQUESTS
+// GET Products For Type
+router.get("/:productId/items", async (req, res, next) => {
+  const { connect, query, end } = makeConnection();
+  let result;
+  try {
+    await connect();
+    result = await query(
+      `SELECT *
+      FROM item
+      WHERE product_id = ${req.params.productId}`
+    );
+    await end();
+    res.json(result);
+  } catch (error) {
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
+  }
 
 /* POST new product. */
 router.post("/", async function (req, res, next) {

@@ -56,7 +56,7 @@
 
 ### POST Requests
 
-#### Login/Register
+#### Login/Register [[works]]
 
 - CHECK Login Info
   1. URL: `/usermanage/login`
@@ -79,7 +79,7 @@
 
 #### User
 
-- ADD Payment Info
+- ADD Payment Info [[works]]
   1. URL: `/api/users/:userId/pay`
   2. Body: `{ creditNum, cvv, expDate }`
   3. Query: `UPDATE payment_info SET active = false;`
@@ -99,7 +99,7 @@
   3. Query: `INSERT INTO product (product_name, description, type_id, cost, brand) ` +
      `VALUES("${body.productName}", "${body.description}", ${body.typeId}, ${body.cost}, "${body.brand}")`
   4. Response: `{ LAST_INSERT_ID(), ...Body, photosPath }` | error
-- POST New Item
+- POST New Item [[works]]
   1. `/api/products/:productId`
   2. Body: `{ color, amount }`
   3. Query: `INSERT INTO item (item_color, item_amount, product_id) ` +
