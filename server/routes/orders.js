@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const makeConnection = require("../utilities/makeConnection");
-const safelyEscape = require("../utilities/safelyEscape");
 
+//* POST REQUESTS
+// POST New Order
 router.post("/neworder/:userId", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
   const createOrder = `INSERT INTO \`order\` (user_id,status) VALUES(${req.params.userId}, 'cart')`;
@@ -21,6 +22,7 @@ router.post("/neworder/:userId", async function (req, res, next) {
   }
 });
 
+// ADD Item To Order
 router.post("/:orderId/items", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
   const createItem =

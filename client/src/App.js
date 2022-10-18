@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { createContext, useCallback, useRef } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -22,55 +22,84 @@ import Shop from "./pages/Shop";
 import User from "./pages/User";
 import Error from "./Error";
 
+export const CacheContext = createContext();
+
 function App() {
-  useEffect(() => {
-    console.log("App mount.");
+  const cache = useRef({
+    /*TODO: cache info template */
+    userInfo: {}
+  });
+
+  const clearCache = useCallback(() => {
+    cache.current = {
+      /* cache info template */
+      userInfo: {}
+    };
   }, []);
+
+  const retrieveFromCache = useCallback(target => {
+    return cache.current[target];
+  }, []);
+
+  const writeToCache = useCallback((target, data, inner) => {
+    if (inner) {
+      cache.current[target][inner] =
+        data instanceof Array ? [...data] : { ...data };
+      return;
+    }
+
+    if (typeof cache.current[target] === "string") {
+      cache.current[target] = data;
+    } else if (cache.current[target] instanceof Array) {
+      cache.current[target] = [...data];
+    } else {
+      cache.current[target] = { ...data };
+    }
+  }, []);
+
+  const cacheUtils = {
+    clearCache,
+    retrieveFromCache,
+    writeToCache
+  };
 
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-
-          <Route path="/users" element={<LoggedIn />}>
-            {/* 
-              if index, check and navigate the store userId
-              if no stored userId, navigate to login
-            */}
-            <Route path=":userId" element={<User />}>
-              <Route index element={<Navigate to="./info" />} />
-              <Route path="info" element={<Info />} />
-              <Route path="shop" element={<Outlet />}>
-                <Route index element={<Shop />} />
-                <Route
-                  path="products/:productId"
-                  element={<ProductDetails />}
-                />
+        <CacheContext.Provider value={cacheUtils}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/users" element={<Outlet />}>
+              <Route index element={<LoggedIn />} />
+              <Route path=":userId" element={<User />}>
+                <Route index element={<Navigate to="./info" />} />
+                <Route path="info" element={<Info />} />
+                <Route path="shop" element={<Outlet />}>
+                  <Route index element={<Shop />} />
+                  <Route
+                    path="products/:productId"
+                    element={<ProductDetails />}
+                  />
+                </Route>
+                <Route path="cart" element={<Cart />} />
+                <Route path="payments" element={<Payments />} />
               </Route>
-              <Route path="cart" element={<Cart />} />
-              <Route path="payments" element={<Payments />} />
-            </Route>
-
-            <Route path="admin/:adminId" element={<Admin />}>
-              <Route index element={<Navigate to="./info" />} />
-
-              <Route path="info" element={<Info />} />
-
-              <Route path="products" element={<Outlet />}>
-                <Route index element={<Navigate to="./new" />} />
-                <Route path="new " element={<NewProduct />} />
-                <Route path="edit" element={<EditProducts />} />
-                <Route path=":productId" element={<EditItems />} />
+              <Route path="admin/:adminId" element={<Admin />}>
+                <Route index element={<Navigate to="./info" />} />
+                <Route path="info" element={<Info />} />
+                <Route path="products" element={<Outlet />}>
+                  <Route index element={<Navigate to="./new" />} />
+                  <Route path="new " element={<NewProduct />} />
+                  <Route path="edit" element={<EditProducts />} />
+                  <Route path=":productId" element={<EditItems />} />
+                </Route>
               </Route>
             </Route>
-          </Route>
-
-          <Route path="*" element={<Error />} />
-        </Routes>
+            <Route path="*" element={<Error />} />
+          </Routes>
+        </CacheContext.Provider>
       </BrowserRouter>
     </div>
   );
