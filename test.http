@@ -60,18 +60,18 @@ Content-Type: application/json
 
 # User
 # ADD Payment Info
-POST http://localhost:8080/api/users/:userId/pay
+POST http://localhost:8090/api/users/:userId/pay
 Content-Type: application/json
 
 {
-  "creditNum": "...",
-  "cvv": "---",
-  "expDate": "..."
+  "creditNum": "9907357654376543",
+  "cvv": "888",
+  "expDate": "2026-80-00"
 }
 
 # Product
 # POST New Product
-POST http://localhost:8080/api/products
+POST http://localhost:8090/api/products
 Content-Type: application/json
 
 {
@@ -83,7 +83,7 @@ Content-Type: application/json
 }
 
 # POST New Item
-POST http://localhost:8080/api/products/:productId
+POST http://localhost:8090/api/products/:productId
 Content-Type: application/json
 
 {
@@ -93,10 +93,10 @@ Content-Type: application/json
 
 # Orders
 # POST New Order
-POST http://localhost:8080/api/orders/neworder/:userId
+POST http://localhost:8090/api/orders/neworder/:userId
 
 # ADD Item To Order
-POST http://localhost:8080/api/orders/:orderId/items
+POST http://localhost:8090/api/orders/:orderId/items
 Content-Type: application/json
 
 {
@@ -105,13 +105,13 @@ Content-Type: application/json
 }
 
 # ADD Photo To Product
-POST http://localhost:8080/api/items/:itemId/photos
+POST http://localhost:8090/api/items/:itemId/photos
 Content-Type: image/jpeg, image/png
 
 # PUT
 # User
 # CHANGE Active Payment
-PUT http://localhost:8080/api/users/:userId/activepay
+PUT http://localhost:8090/api/users/:userId/activepay
 Content-Type: application/json
 
 "paymentInfoId"
@@ -122,7 +122,7 @@ Content-Type: application/json
 
 # Orders
 # PUT Fulfill Order
-PUT http://localhost:8080/api/orders/:orderId
+PUT http://localhost:8090/api/orders/:orderId
 Content-Type: application/json
 
 {
