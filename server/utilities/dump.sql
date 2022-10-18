@@ -31,7 +31,7 @@ CREATE TABLE `item` (
   PRIMARY KEY (`item_id`),
   KEY `item_product_id_fk_idx` (`product_id`),
   CONSTRAINT `item_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (1,'blue',10,1,'link here'),(2,'blue',10,2,'link here'),(3,'blue',10,3,'link here'),(4,'red',10,1,'link here'),(5,'red',10,2,'link here'),(6,'red',10,3,'link here');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +58,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`order_id`),
   KEY `order_user_id_fk_idx` (`user_id`),
   CONSTRAINT `order_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,6 +67,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
+INSERT INTO `order` VALUES (1,2,'fulfilled'),(2,2,'cart'),(3,3,'fulfilled'),(4,2,'fulfilled'),(5,3,'cart'),(6,3,'fulfilled');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +88,7 @@ CREATE TABLE `order_item` (
   KEY `order_item_order_id_fk_idx` (`order_id`),
   CONSTRAINT `order_item_item_id_fk` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`),
   CONSTRAINT `order_item_order_id_fk` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,6 +97,7 @@ CREATE TABLE `order_item` (
 
 LOCK TABLES `order_item` WRITE;
 /*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
+INSERT INTO `order_item` VALUES (1,1,1,3),(2,2,1,2),(3,3,1,1),(4,1,2,5),(5,3,5,1),(6,2,3,1),(7,3,5,1),(8,2,5,1);
 /*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,10 +109,8 @@ DROP TABLE IF EXISTS `payment_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_info` (
-  `payment_info_id` int NOT NULL,
-  `credit_number` int NOT NULL,
-  `bank_name` text,
-  `branch_number` int DEFAULT NULL,
+  `payment_info_id` int NOT NULL AUTO_INCREMENT,
+  `credit_number` varchar(16) NOT NULL,
   `cvv` int NOT NULL,
   `expiration_date` date NOT NULL,
   `user_id` int NOT NULL,
@@ -117,7 +118,7 @@ CREATE TABLE `payment_info` (
   PRIMARY KEY (`payment_info_id`),
   KEY `payment_info_user_if_fk_idx` (`user_id`),
   CONSTRAINT `payment_info_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,6 +127,7 @@ CREATE TABLE `payment_info` (
 
 LOCK TABLES `payment_info` WRITE;
 /*!40000 ALTER TABLE `payment_info` DISABLE KEYS */;
+INSERT INTO `payment_info` VALUES (1,'3333444455556666',315,'2026-08-00',2,1),(2,'3333444455556666',315,'2026-08-00',3,1),(3,'3333444455557777',342,'2028-08-00',2,1);
 /*!40000 ALTER TABLE `payment_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,12 +144,12 @@ CREATE TABLE `product` (
   `description` text NOT NULL,
   `type_id` int NOT NULL,
   `main_photo` text,
-  `cost` int NOT NULL,
+  `cost` float NOT NULL,
   `brand` tinytext NOT NULL,
   PRIMARY KEY (`product_id`),
   KEY `product_type_id_fk_idx` (`type_id`),
   CONSTRAINT `product_type_id_fk` FOREIGN KEY (`type_id`) REFERENCES `type` (`type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,6 +158,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
+INSERT INTO `product` VALUES (1,'Lenovo x120','a laptop baybeee',1,NULL,500.5,'Lenovo'),(2,'Sportsball 3000','a very cool sports ball',2,NULL,10.4,'Spalding'),(3,'Mario Odyssey','great game guys',3,NULL,5000,'Nintendo');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -177,7 +180,7 @@ CREATE TABLE `purchase_history` (
   KEY `purchase_history_payment_info_id_fk_idx` (`payment_info_id`),
   CONSTRAINT `purchase_history_order_id_fk` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`),
   CONSTRAINT `purchase_history_payment_info_id_fk` FOREIGN KEY (`payment_info_id`) REFERENCES `payment_info` (`payment_info_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,6 +189,7 @@ CREATE TABLE `purchase_history` (
 
 LOCK TABLES `purchase_history` WRITE;
 /*!40000 ALTER TABLE `purchase_history` DISABLE KEYS */;
+INSERT INTO `purchase_history` VALUES (1,1,'2022-10-18',5500,1),(2,3,'2022-09-18',5500,2),(3,4,'2022-10-18',5500,3),(4,6,'2022-11-18',5500,2);
 /*!40000 ALTER TABLE `purchase_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +204,7 @@ CREATE TABLE `type` (
   `type_id` int NOT NULL AUTO_INCREMENT,
   `type_name` text NOT NULL,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,6 +213,7 @@ CREATE TABLE `type` (
 
 LOCK TABLES `type` WRITE;
 /*!40000 ALTER TABLE `type` DISABLE KEYS */;
+INSERT INTO `type` VALUES (1,'Laptops'),(2,'Sports'),(3,'Video Games');
 /*!40000 ALTER TABLE `type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,7 +233,7 @@ CREATE TABLE `user` (
   `password` text NOT NULL,
   `permission` enum('customer','admin') NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,6 +242,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'Bret','asdf@gmail.com','Your mama\'s house','055555555','asdfasdf','admin'),(2,'bobbart55','as123@gmail.com','Your daddy\'s house','055555555','12345678','customer'),(3,'superman','ayyyy@gmail.com','no one knows','055555555','753951852','customer');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -249,4 +255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-18 14:45:14
+-- Dump completed on 2022-10-18 16:35:52
