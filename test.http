@@ -60,13 +60,13 @@ Content-Type: application/json
 
 # User
 # ADD Payment Info
-POST http://localhost:8090/api/users/:userId/pay
+POST http://localhost:8090/api/users/2/pay
 Content-Type: application/json
 
 {
-  "creditNum": "9907357654376543",
-  "cvv": "888",
-  "expDate": "2026-80-00"
+  "creditNum": "1234567891234567",
+  "cvv": "123",
+  "expDate": "2026-03-00"
 }
 
 # Product
@@ -83,12 +83,12 @@ Content-Type: application/json
 }
 
 # POST New Item
-POST http://localhost:8090/api/products/:productId
+POST http://localhost:8090/api/products/2
 Content-Type: application/json
 
 {
-  "color": "...",
-  "amount": "..."
+  "color": "yellow",
+  "amount": "3"
 }
 
 # Orders

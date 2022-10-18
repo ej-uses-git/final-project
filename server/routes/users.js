@@ -97,8 +97,8 @@ router.post("/:userId/pay", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
   const createPay =
     `INSERT INTO payment_info (credit_number, cvv, expiration_date, user_id, active) ` +
-    `VALUES(${body.creditNum}, ${body.cvv}, "${body.expDate}", ${req.params.userId}, "active");`;
-  const updateActive = `UPDATE payment_info SET active = false;`;
+    `VALUES(${req.body.creditNum}, ${req.body.cvv}, '${req.body.expDate}', ${req.params.userId}, true);`;
+  const updateActive = `UPDATE payment_info SET active = false WHERE user_id = ${req.params.userId};`;
   const selectId = `SELECT LAST_INSERT_ID();`;
   try {
     await connect();
