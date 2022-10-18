@@ -10,13 +10,14 @@ const itemsRouter = require("./routes/items");
 const ordersRouter = require("./routes/orders");
 const productsRouter = require("./routes/products");
 const typesRouter = require("./routes/types");
-
+const fileUpload = require("express-fileupload");
 const app = express();
 
 app.use(cors());
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(fileUpload());
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, "public")));
 
