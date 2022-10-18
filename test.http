@@ -75,33 +75,34 @@ POST http://localhost:8090/api/products
 Content-Type: application/json
 
 {
-  "productName": "...",
-  "description": "...",
-  "typeId": "...",
-  "cost": "...",
-  "brand": "..."
+  "productName": "laptop X1990",
+  "description": "18 inch super laptop",
+  "typeId": "1",
+  "cost": "3500",
+  "brand": "Dell"
 }
 
 # POST New Item
-POST http://localhost:8090/api/products/3
+POST http://localhost:8090/api/products/2
 Content-Type: application/json
 
 {
-  "color": "green",
+  "color": "gray",
   "amount": "3"
 }
 
 # Orders
 # POST New Order
-POST http://localhost:8090/api/orders/neworder/:userId
+POST http://localhost:8090/api/orders/neworder/4
+Content-Type: application/json 
 
 # ADD Item To Order
-POST http://localhost:8090/api/orders/:orderId/items
+POST http://localhost:8090/api/orders/4/items
 Content-Type: application/json
 
 {
-  "itemId": "...",
-  "amount": "..."
+  "itemId": "1",
+  "amount": "2"
 }
 
 # ADD Photo To Product

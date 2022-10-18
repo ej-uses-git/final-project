@@ -21,7 +21,9 @@ router.get("/:itemId/photos", async (req, res, next) => {
     );
     result = result[0]?.photos;
     if (!result) return res.json([]);
-    result = await fs.readdir(path.join(__dirname, "../public/images", result));
+    result = await fs.readdir(
+      path.join(__dirname, "../public/images/items/", result)
+    );
     if (!(result instanceof Array)) return res.json([]);
     await end();
     res.json(result);
