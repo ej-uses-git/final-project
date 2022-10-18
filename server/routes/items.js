@@ -60,7 +60,7 @@ router.post("/:itemId/uplodaphotos", async (req, res, next) => {
     }
 
     await end();
-    res.json(true);
+    res.send(true);
   } catch (error) {
     if (!error.fatal) await end();
     console.log(error);
