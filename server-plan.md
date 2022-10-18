@@ -21,16 +21,36 @@
 #### User
 
 - GET User Info
+  1. URL: `/api/users/:userId/info`
+  2. ???
+  3. Response: `{ user_id, user_name, email, address, phone_number, permission, orderId (as cartId) }` | error
 - GET Cart For User
+  1. URL: `/api/users/:userId/cart/:cartId`
+  2. ???
+  3. Response: `[{ product_name, ...item.* }]` | error
 - GET Purchase History For User
+  1. URL: `/api/users/:userId/purchase+history`
+  2. ???
+  3. Response: `` | error
 - GET Payment Methods For User
+  1. URL: `/api/users/:userId/payment+methods`
+  2. ???
+  3. Response: `` | error
 
 #### Product
 
 - GET Products For Type
+  1. URL: `/api/types/:typeId/products`
+  2. ???
+  3. Response: `[Product {}, ...]` | error
 - GET Items For Product
-- GET Product Info
+  1. URL: `/api/products/:productId/items`
+  2. ???
+  3. Response: `[Item {}, ...]` | error
 - GET Photos For Item
+  1. URL: `/api/items/itemId/photos`
+  2. ???
+  3. Response: `[photoPathname, ...]` | error
   <!-- /api/products/prodname
   <- [/images/photo1, /images/photo2] -->
 
@@ -61,6 +81,13 @@
 #### User
 
 - ADD Payment Info
+  1. URL: `/api/users/:userId/pay`
+  2. Body: `{ creditNum, cvv, expDate }`
+  3. ???
+  4. ! active = true
+  5. ! server should change active payment to be inactive first
+  6. Response: `LAST_INSERT_ID()` | error
+  - ! Client adds body to cache independently
 
 #### Product
 
@@ -97,11 +124,11 @@
   1. URL: `/api/users/:userId/activepay`
   2. Body: `paymentInfoId`
   3. ???
-  4. Response: ``
+  4. Response: `true` (payment was changed) | error
+  - ! Client changes active payment in cache independently
 
 #### Product
 
-- EDIT Cart
 - EDIT Item
 - EDIT Product
 
@@ -109,6 +136,8 @@
 
 - PUT Fulfill Order
   1. URL: `/api/orders/:orderId`
-  2. Body: `{ totalCost, paymentInfoId }`
+  2. Body: `{ totalCost, paymentInfoId, orderId (of cart) }`
   3. ???
-  4. Response: `PurchaseHistory Data {}`
+  4. ! server should create purchase history
+  5. ! server should change stock of items
+  6. Response: `PurchaseHistory Data {}` | `false` (someone stole it from you) | error
