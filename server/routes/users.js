@@ -91,6 +91,25 @@ router.get("/:userId/purchase%20history", async (req, res, next) => {
   }
 });
 
+router.get("/:userId/payment%20methods", async (req, res, next) => {
+  const { connect, query, end } = makeConnection();
+  let result;
+  try {
+    await connect();
+    result = await query(
+      `SELECT *
+      FROM payment_info
+      WHERE user_id = ${req.params.userId}`
+    );
+    await end();
+    res.json(result);
+  } catch (error) {
+    if (!error.fatal) await end();
+    console.log(error);
+    res.status(500).send(error);
+  }
+});
+
 //* POST REQUESTS
 // POST new payment info
 router.get("/:userId/pay", async (req, res, next) => {

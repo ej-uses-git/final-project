@@ -20,34 +20,34 @@
 
 #### User
 
-- GET User Info
+- GET User Info [[works]]
   1. URL: `/api/users/:userId/info`
   2. ???
   3. Response: `{ user_id, user_name, email, address, phone_number, permission, orderId (as cartId) }` | error
-- GET Cart For User
+- GET Cart For User [[works]]
   1. URL: `/api/users/:userId/cart/:cartId`
   2. ???
   3. Response: `[{ product_name, ...item.* }]` | error
-- GET Purchase History For User
+- GET Purchase History For User [[works]]
   1. URL: `/api/users/:userId/purchase+history`
   2. ???
   3. Response: `` | error
-- GET Payment Methods For User
+- GET Payment Methods For User [[works]]
   1. URL: `/api/users/:userId/payment+methods`
   2. ???
   3. Response: `` | error
 
 #### Product
 
-- GET Products For Type
+- GET Products For Type [[works]]
   1. URL: `/api/types/:typeId/products`
   2. ???
   3. Response: `[Product {}, ...]` | error
-- GET Items For Product
+- GET Items For Product [[works]]
   1. URL: `/api/products/:productId/items`
   2. ???
   3. Response: `[Item {}, ...]` | error
-- GET Photos For Item
+- GET Photos For Item [[works]]
   1. URL: `/api/items/itemId/photos`
   2. ???
   3. Response: `[photoPathname, ...]` | error
