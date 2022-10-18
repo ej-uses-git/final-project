@@ -34,6 +34,8 @@ router.get("/:itemId/photos", async (req, res, next) => {
   }
 });
 
+//* POST REQUESTS
+// UPLOAD New Photo For Item
 router.post("/:itemId/uplodaphotos", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
   let dirName;
@@ -59,13 +61,13 @@ router.post("/:itemId/uplodaphotos", async (req, res, next) => {
       const err = await util.promisify(file.mv)(newPath);
       if (err) throw new Error("couldn't upload files");
     }
-
     await end();
-    res.send(true);
+    res.json(true);
   } catch (error) {
     if (!error.fatal) await end();
     console.log(error);
     res.status(500).send(error);
   }
 });
+
 module.exports = router;
