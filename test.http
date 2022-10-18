@@ -4,7 +4,7 @@
 # GET
 # User
 # GET User Info
-GET http://localhost:8080/api/users/:userId/info
+GET http://localhost:8080/api/users/1/info
 
 # GET Cart For User
 GET http://localhost:8080/api/users/:userId/cart/:cartId
