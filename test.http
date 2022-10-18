@@ -10,20 +10,20 @@ GET http://localhost:8080/api/users/1/info
 GET http://localhost:8080/api/users/1/cart/2
 
 # GET Purchase History For User
-GET http://localhost:8080/api/users/:userId/purchase+history
+GET http://localhost:8080/api/users/2/purchase%20history
 
 # GET Payment Methods For User
-GET http://localhost:8080/api/users/:userId/payment+methods
+GET http://localhost:8080/api/users/2/payment%20methods
 
 # Product
 # GET Products For Type
-GET http://localhost:8080/api/types/:typeId/products
+GET http://localhost:8080/api/types/12/products
 
 # GET Items For Product
-GET http://localhost:8080/api/products/:productId/items
+GET http://localhost:8080/api/products/1/items
 
 # GET Photos For Item
-GET http://localhost:8080/api/items/itemId/photos
+GET http://localhost:8080/api/items/1/photos
 
 # POST
 # Login/Register
