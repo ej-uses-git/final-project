@@ -1,29 +1,29 @@
-# api = localhost:8080
+# api = localhost:8090
 # usermanage = lcoalhost:5000
 
 # GET
 # User
 # GET User Info
-GET http://localhost:8080/api/users/1/info
+GET http://localhost:8090/api/users/2/info
 
 # GET Cart For User
-GET http://localhost:8080/api/users/1/cart/2
+GET http://localhost:8090/api/users/1/cart/2
 
 # GET Purchase History For User
-GET http://localhost:8080/api/users/2/purchase%20history
+GET http://localhost:8090/api/users/2/purchase%20history
 
 # GET Payment Methods For User
-GET http://localhost:8080/api/users/2/payment%20methods
+GET http://localhost:8090/api/users/3/payment%20methods
 
 # Product
 # GET Products For Type
-GET http://localhost:8080/api/types/12/products
+GET http://localhost:8090/api/types/1/products
 
 # GET Items For Product
-GET http://localhost:8080/api/products/1/items
+GET http://localhost:8090/api/products/1/items
 
 # GET Photos For Item
-GET http://localhost:8080/api/items/1/photos
+GET http://localhost:8090/api/items/1/photos
 
 # POST
 # Login/Register
@@ -60,7 +60,7 @@ Content-Type: application/json
 
 # User
 # ADD Payment Info
-POST http://localhost:8090/api/users/2/pay
+POST http://localhost:8090/api/users/3/pay
 Content-Type: application/json
 
 {
@@ -123,12 +123,11 @@ Content-Type: application/json
 
 # Orders
 # PUT Fulfill Order
-PUT http://localhost:8090/api/orders/:orderId
+PUT http://localhost:8090/api/orders/2
 Content-Type: application/json
 
 {
-  "totalCost": "...",
-  "paymentInfoId": "...",
-  "orderId": "..."
+  "totalCost": 700,
+  "paymentInfoId": 1
 }
 
