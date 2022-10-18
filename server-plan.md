@@ -1,8 +1,11 @@
 # Data Server
 
+
 ---
 
+
 ## Store Database
+
 
 ### Tables:
 
@@ -27,7 +30,7 @@
 - GET Cart For User
   1. URL: `/api/users/:userId/cart/:cartId`
   2. ???
-  10. Response: `{  }` | error
+  10. Response: `[{ product_name, ...item.* }]` | error
 - GET Purchase History For User
   1. URL: `/api/users/:userId/purchase+history`
   2. ???
@@ -43,15 +46,11 @@
 - GET Products For Type
   1. URL: `/api/types/:typeId/products`
   2. ???
-  10. Response: `` | error
+  10. Response: `[Product {}, ...]` | error
 - GET Items For Product
   1. URL: `/api/products/:productId/items`
   2. ???
-  10. Response: `` | error
-- GET Product Info
-  1. URL: `/api/products/:productId/info`
-  2. ???
-  10. Response: `` | error
+  10. Response: `[Item {}, ...]` | error
 - GET Photos For Item
   1. URL: `/api/items/itemId/photos`
   2. ???
