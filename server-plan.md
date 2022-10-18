@@ -128,8 +128,10 @@
 - CHANGE Active Payment
   1. URL: `/api/users/:userId/activepay`
   2. Body: `paymentInfoId`
-  3. ???
-  4. Response: `true` (payment was changed) | error
+  3. Query: `UPDATE payment_info SET active = false;`
+  4. Query: `UPDATE payment_info SET active = true ` +
+     `WHERE payment_info_id = ${req.body}`
+  5. Response: `true` (payment was changed) | error
   - ! Client changes active payment in cache independently
 
 #### Product
@@ -141,8 +143,12 @@
 
 - PUT Fulfill Order
   1. URL: `/api/orders/:orderId`
-  2. Body: `{ totalCost, paymentInfoId, orderId (of cart) }`
-  3. ???
+  2. Body: `{ totalCost, paymentInfoId}`
+  3. Query: `UPDATE order SET status = "fulfilled" ` +
+     `WHERE order_id = ${req.params.orderId}`
+     Query: `INSERT INTO purchase_history (order_id, purchase_date, total_cost, payment_info_id) ` +
+     `VALUES(${req.params.orderId}, CURDATE(), ${req.body.totalCost}, ${req.body.paymentInfoId};`
+     Query: `UPDATE item SET item_amount = item_amount - (SELECT amount FROM order_item WHERE order_id = ${req.params.orderId} AND item_id = item.item_id)`
   4. ! server should create purchase history
   5. ! server should change stock of items
   6. Response: `PurchaseHistory Data {}` | `false` (someone stole it from you) | error
