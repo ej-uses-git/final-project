@@ -32,8 +32,8 @@ function Shop(props) {
   }, []);
 
   return (
-    <>
-      <select value={selector} onChange={handleChange}>
+    <div className="shop">
+      <select className="filter" value={selector} onChange={handleChange}>
         <option value={0}>Laptops</option>
         <option value={1}>Sports</option>
         <option value={2}>Video Games</option>
@@ -46,7 +46,7 @@ function Shop(props) {
           product={product}
         />
       ))}
-    </>
+    </div>
   );
 }
 

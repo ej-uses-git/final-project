@@ -67,7 +67,7 @@ function EditItems(props) {
 
       {display.map(item => (
         <Link to={`${item.item_id}/upload`} key={item.item_id}>
-          <Item itemId={item.item_id} color={item.item_color} />
+          <Item itemId={item.item_id} color={item.item_color} cost={item.cost} />
         </Link>
       ))}
 

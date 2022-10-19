@@ -31,6 +31,7 @@ router.get("/:itemId/photos", async (req, res, next) => {
     );
     if (!(result instanceof Array)) return res.json([]);
     await end();
+    result = result.filter((item) => !item.includes(".confirm"));
     res.json(result);
   } catch (error) {
     if (!error.fatal) await end();

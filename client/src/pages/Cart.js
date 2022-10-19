@@ -70,7 +70,6 @@ function Cart(props) {
     if (error) return useError(error, navigate);
     writeToCache("purchaseHistory", [...purchaseHistory, data[0]]);
 
-    console.log("\n== user_id ==\n", userInfo.user_id, "\n");
     [data, error] = await postReq(`/orders/neworder/${userInfo.user_id}`);
     if (error) return useError(error, navigate);
 
@@ -87,7 +86,7 @@ function Cart(props) {
   }, [cachedCart, purchaseHistory]);
 
   return (
-    <>
+    <div className="user-cart | bg-accent-500">
       {cart.map((item, i) => (
         <OrderItem
           key={item.item_id}
@@ -103,10 +102,18 @@ function Cart(props) {
           }}
         />
       ))}
-      Total cost: ${totalCost.toFixed(2)}
-      <button onClick={saveChanges}>Save Changes</button>
-      <button onClick={fulfillCart}>Purchase Cart</button>
-    </>
+      <h2 className="ff-headings fw-bold fs-200 text-neutral-100">
+        Total cost: ${totalCost.toFixed(2)}
+      </h2>
+      <div className="container container--small">
+        <button className="button" onClick={saveChanges}>
+          Save Changes
+        </button>
+        <button className="button" onClick={fulfillCart}>
+          Purchase Cart
+        </button>
+      </div>
+    </div>
   );
 }
 

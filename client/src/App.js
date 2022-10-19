@@ -73,7 +73,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <>
       <BrowserRouter>
         <CacheContext.Provider value={cacheUtils}>
           <Routes>
@@ -140,7 +140,7 @@ function App() {
           </Routes>
         </CacheContext.Provider>
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 

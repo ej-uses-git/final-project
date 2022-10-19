@@ -43,7 +43,6 @@ router.post("/:orderId/items", async function (req, res, next) {
       WHERE item_id = ${req.body.itemId}
       AND order_id = ${req.params.orderId}`
     );
-    console.log("\n== result ==\n", result, "\n");
     if (result.length) {
       await query(
         `UPDATE order_item
@@ -148,7 +147,6 @@ router.put("/:orderId/items/:itemId", async (req, res, next) => {
     result = await query(
       `UPDATE order_item
       SET amount = ${req.body.amount}
-        console.log("\n== changeIndex ==\n", changedIndex, "\n");
       WHERE item_id = ${req.params.itemId}`
     );
     await end();

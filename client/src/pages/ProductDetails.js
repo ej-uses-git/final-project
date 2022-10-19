@@ -32,7 +32,6 @@ function ProductDetails(props) {
       if (error) return useError(error, navigate);
       if (!data) return alert("Not enough items in stock.");
       const cachedCart = retrieveFromCache("userCart");
-      console.log("\n== data ==\n", data, "\n");
       if (data.amount) {
         const copy = [...cachedCart];
         const changedIndex = copy.findIndex(item => item.item_id === itemId);
@@ -74,7 +73,7 @@ function ProductDetails(props) {
   }, []);
 
   return (
-    <>
+    <div className="product-details">
       {display.map(item =>
         item.item_amount ? (
           <Item
@@ -90,10 +89,12 @@ function ProductDetails(props) {
         )
       )}
 
-      <Link to="../../shop">
-        <button>Back To Products</button>
-      </Link>
-    </>
+      <div className="no-dec">
+        <Link to="../../shop">
+          <button className="back-button button">Back To Products</button>
+        </Link>
+      </div>
+    </div>
   );
 }
 

@@ -66,10 +66,11 @@ function User(props) {
   }, [info]);
 
   return (
-    <div>
+    <div className="user-page">
       {perm && (perm === "admin" ? <AdminNavbar /> : <CustomerNavbar />)}
       {perm && <Outlet />}
       <button
+        className="log-out | button"
         onClick={() => {
           localStorage.removeItem("currentUser");
           clearCache();

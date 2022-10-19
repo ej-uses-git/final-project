@@ -32,8 +32,8 @@ function EditProducts(props) {
   }, []);
 
   return (
-    <>
-      <select value={selector} onChange={handleChange}>
+    <div>
+      <select className="filter" value={selector} onChange={handleChange}>
         <option value={0}>Laptops</option>
         <option value={1}>Sports</option>
         <option value={2}>Video Games</option>
@@ -47,10 +47,12 @@ function EditProducts(props) {
         />
       ))}
 
-      <Link to="../new">
-        <button>Add New Product</button>
-      </Link>
-    </>
+      <div className="no-dec">
+        <Link to="../new">
+          <button className="new-product-button button">Add New Product</button>
+        </Link>
+      </div>
+    </div>
   );
 }
 

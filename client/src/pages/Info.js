@@ -15,16 +15,18 @@ function Info(props) {
   }, []);
 
   return (
-    <>
+    <ul className="user-info | bg-primary-600">
+      <h2 className="fs-600 fw-bold ff-headings text-neutral-100">Your Profile</h2>
       {Object.keys(info).map(key => (
-        <li key={key}>
-          <div>{key}:</div>
-          <div>{info[key]}</div>
+        <li key={key} className="container">
+          <div className="fs-200 ff-headings fw-bold">
+            {key.replaceAll("_", " ").toUpperCase()}:
+          </div>
+          <div className="ff-body">{info[key]}</div>
         </li>
       ))}
-    </>
+    </ul>
   );
-  //TODO: improve display
 }
 
 export default Info;
