@@ -6,7 +6,6 @@ import {
   Outlet,
   Navigate
 } from "react-router-dom";
-import Admin from "./pages/Admin";
 import Cart from "./pages/Cart";
 import EditItems from "./pages/EditItems";
 import EditProducts from "./pages/EditProducts";
@@ -90,7 +89,7 @@ function App() {
                 <Route path="cart" element={<Cart />} />
                 <Route path="payments" element={<Payments />} />
               </Route>
-              <Route path="admin/:adminId" element={<Admin />}>
+              <Route path="admin/:userId" element={<User />}>
                 <Route index element={<Navigate to="./info" />} />
                 <Route path="info" element={<Info />} />
                 <Route path="products" element={<Outlet />}>

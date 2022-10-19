@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { CacheContext } from "../App";
 
 function User(props) {
   const navigate = useNavigate();
 
   const { userId } = useParams();
+
+  const { clearCache } = useContext(CacheContext);
 
   const storedUser = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -20,6 +23,7 @@ function User(props) {
       <button
         onClick={() => {
           localStorage.removeItem("currentUser");
+          clearCache();
           navigate("/login");
         }}
       >
