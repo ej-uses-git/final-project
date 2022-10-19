@@ -6,7 +6,9 @@ import { getReq } from "../utilities/fetchUtils";
 function LoggedIn(props) {
   const navigate = useNavigate();
 
-  const { clearCache, retrieveFromCache } = useContext(CacheContext);
+  const { clearCache, retrieveFromCache, writeToCache } = useContext(
+    CacheContext
+  );
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -29,6 +31,7 @@ function LoggedIn(props) {
       const [data, error] = await getReq(`/users/${storedUser}/info`);
       if (error) return navigate(`/error/${error.message.toLowerCase()}`);
       if (!data) return navigate("/error/not logged in");
+      writeToCache("userInfo", data);
       if (data.permission === "admin") return navigate(`admin/${data.user_id}`);
       return navigate(`${data.user_id}`);
       //TODO: use history library to make back arrow functional
