@@ -4,6 +4,7 @@ import { CacheContext } from "../App";
 function Cart(props) {
   //TODO: enable sending PUT Fulfill Order
   //TODO: update userCart and purchaseHistory in cache
+  //TODO: display cart properly, along with images
 
   const { retrieveFromCache } = useContext(CacheContext);
 

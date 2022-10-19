@@ -5,8 +5,6 @@ import { getReq, uploadFile } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
 function EditProducts(props) {
-  //TODO: enable sending UPLOAD Main Photo
-
   const navigate = useNavigate();
 
   const localCache = useRef([[], [], []]);
