@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { getReq } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
@@ -26,9 +26,10 @@ function Shop(props) {
     localCache.current[e.target.value] = data;
   }, []);
 
-  //TODO: display main photo for each product
-  //TODO: change dynamically and store products in local cache
-  //TODO: link to product details page for each product
+  useEffect(() => {
+    handleChange({ target: { value: 0 } });
+  }, []);
+
   return (
     <>
       <select value={selector} onChange={handleChange}>
@@ -37,7 +38,17 @@ function Shop(props) {
         <option value={2}>Video Games</option>
       </select>
 
-      {display.map(product => JSON.stringify(product))}
+      {display.map(product => (
+        <Link to={`products/${product.product_id}`} key={product.product_id}>
+          <img
+            src={`http://localhost:8090/images/mainphotos/${product.product_id}.jpg`}
+            alt={product.product_name}
+          />
+          <h3>{product.product_name}</h3>
+          <p>{product.description}</p>
+          <p>{product.cost}</p>
+        </Link>
+      ))}
     </>
   );
 }

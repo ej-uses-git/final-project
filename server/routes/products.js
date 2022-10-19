@@ -121,16 +121,18 @@ router.post("/:productId/newphoto", async (req, res, next) => {
 
     file = req.files?.file;
     if (!file) return res.send(false);
+    const fileName =
+      req.params.productId + "." + file.name.replaceAll(/.*\./g, "");
     const newPath = path.join(
       __dirname,
       "../public/images/mainphotos",
-      file.name
+      fileName
     );
     const err = await util.promisify(file.mv)(newPath);
     if (err) throw new Error("couldn't upload file");
 
     await query(
-      `UPDATE product SET main_photo = "${file.name}" WHERE product_id = ${req.params.productId}`
+      `UPDATE product SET main_photo = "${fileName}" WHERE product_id = ${req.params.productId}`
     );
 
     await end();
