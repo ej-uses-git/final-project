@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import LoggedIn from "./pages/LoggedIn";
 import NewProduct from "./pages/NewProduct";
 import Payments from "./pages/Payments";
+import PurchaseHistory from "./pages/PurchaseHistory";
 import ProductDetails from "./pages/ProductDetails";
 import Register from "./pages/Register";
 import Shop from "./pages/Shop";
@@ -88,6 +89,7 @@ function App() {
                 </Route>
                 <Route path="cart" element={<Cart />} />
                 <Route path="payments" element={<Payments />} />
+                <Route path="orderhistory" element={<PurchaseHistory />} />
               </Route>
               <Route path="admin/:userId" element={<User />}>
                 <Route index element={<Navigate to="./info" />} />
