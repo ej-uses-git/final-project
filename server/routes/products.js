@@ -97,7 +97,7 @@ router.post("/:productId", async function (req, res, next) {
       "../public/images/items",
       `${productName[0].product_name}${lastId}`
     );
-    console.log("path: ", dirPath);
+
     try {
       await fs.access(dirPath);
     } catch (error) {
@@ -118,7 +118,7 @@ router.post("/:productId/newphoto", async (req, res, next) => {
   let file;
   try {
     await connect();
-    console.log(req.files);
+
     file = req.files?.file;
     if (!file) return res.send(false);
     const newPath = path.join(

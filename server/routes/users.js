@@ -29,7 +29,7 @@ router.get("/:userId/info", async (req, res, next) => {
         u.user_id = ${req.params.userId}
         AND (o.status = 'cart' OR u.permission = 'admin')`
     );
-    console.log("\n== result ==\n", result, "\n");
+
     await end();
     res.json(result[0]);
   } catch (error) {
@@ -42,6 +42,7 @@ router.get("/:userId/info", async (req, res, next) => {
 // GET Cart For User
 router.get("/:userId/cart/:cartId", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
+
   let result;
   try {
     await connect();

@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useRef } from "react";
+import React, { createContext, useCallback, useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -25,7 +25,7 @@ import Error from "./Error";
 export const CacheContext = createContext();
 
 function App() {
-  const cache = useRef({
+  const [cache, setCache] = useState({
     userInfo: {},
     userCart: [],
     purchaseHistory: [],
@@ -33,31 +33,33 @@ function App() {
   });
 
   const clearCache = useCallback(() => {
-    cache.current = {
+    setCache({
       userInfo: {},
       userCart: [],
       purchaseHistory: [],
       paymentMethods: []
-    };
-  }, []);
+    });
+  }, [setCache]);
 
-  const retrieveFromCache = useCallback(target => {
-    return cache.current[target];
-  }, []);
+  const retrieveFromCache = useCallback(
+    target => {
+      return cache[target];
+    },
+    [cache]
+  );
 
   const writeToCache = useCallback((target, data, inner) => {
     if (inner) {
-      cache.current[target][inner] =
-        data instanceof Array ? [...data] : { ...data };
+      cache[target][inner] = data instanceof Array ? [...data] : { ...data };
       return;
     }
 
-    if (typeof cache.current[target] === "string") {
-      cache.current[target] = data;
-    } else if (cache.current[target] instanceof Array) {
-      cache.current[target] = [...data];
+    if (typeof cache[target] === "string") {
+      setCache(prev => ({ ...prev, [target]: data }));
+    } else if (cache[target] instanceof Array) {
+      setCache(prev => ({ ...prev, [target]: [...data] }));
     } else {
-      cache.current[target] = { ...data };
+      setCache(prev => ({ ...prev, [target]: { ...data } }));
     }
   }, []);
 
@@ -92,7 +94,7 @@ function App() {
                 <Route path="orderhistory" element={<PurchaseHistory />} />
               </Route>
               <Route path="admin/:userId" element={<User />}>
-                <Route index element={<Navigate to="./info" />} />
+                <Route index element={<Navigate to="info" />} />
                 <Route path="info" element={<Info />} />
                 <Route path="products" element={<Outlet />}>
                   <Route index element={<Navigate to="./new" />} />
@@ -105,10 +107,7 @@ function App() {
             <Route path="error" element={<Outlet />}>
               <Route path=":errorMessage" element={<Error />} />
             </Route>
-            <Route
-              path="*"
-              element={<Navigate to="/error/something went wrong" />}
-            />
+            <Route path="*" element={<Navigate to="/error/page not found" />} />
           </Routes>
         </CacheContext.Provider>
       </BrowserRouter>

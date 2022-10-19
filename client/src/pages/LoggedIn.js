@@ -38,7 +38,7 @@ function LoggedIn(props) {
     })();
   }, []);
 
-  return <div>Logged In</div>;
+  return <></>;
 }
 
 export default LoggedIn;

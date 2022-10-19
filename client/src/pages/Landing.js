@@ -10,7 +10,7 @@ function Landing(props) {
     navigate("/users");
   }, []);
 
-  return <>Landing</>;
+  return <></>;
 }
 
 export default Landing;
