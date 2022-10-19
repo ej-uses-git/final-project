@@ -135,7 +135,7 @@ router.post("/:userId/pay", async (req, res, next) => {
 });
 
 //* PUT REQUESTS
-// PUT Fulfill Order
+// CHANGE Active Payment
 router.put("/:userId/activepay", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
   let result;
@@ -149,11 +149,11 @@ router.put("/:userId/activepay", async (req, res, next) => {
     if (result instanceof Error) throw result;
     result = await query(
       `UPDATE payment_info SET active = true
-      WHERE payment_info_id = ${req.body}`
+      WHERE payment_info_id = ${req.body.id}`
     );
     if (result instanceof Error) throw result;
     await end();
-    result.json(true);
+    res.json(true);
   } catch (error) {
     if (!error.fatal) await end();
     console.log(error);

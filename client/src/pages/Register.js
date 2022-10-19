@@ -52,7 +52,7 @@ function Register(props) {
       username: firstPageValues.current.username,
       email: email.current.value
     });
-    if (useError(error, navigate)) return;
+    if (error) useError(error, navigate);
     if (!data)
       return alert(
         "Information already taken. Try changing your username or email."
@@ -66,12 +66,12 @@ function Register(props) {
       address: address.current.value,
       permission: "customer"
     });
-    if (useError(error, navigate)) return;
+    if (error) useError(error, navigate);
     const userId = data;
     localStorage.setItem("currentUser", userId);
 
     [data, error] = await postReq(`/orders/neworder/${userId}`);
-    if (useError(error, navigate)) return;
+    if (error) useError(error, navigate);
     const cartId = data;
 
     writeToCache("userInfo", {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import AdminNavbar from "../components/AdminNavbar";
 import CustomerNavbar from "../components/CustomerNavbar";
@@ -20,6 +20,14 @@ function User(props) {
   const storedUser = localStorage.getItem("currentUser");
   const [info, setInfo] = useState(retrieveFromCache("userInfo"));
 
+  const getFromServer = useCallback(async (item, path) => {
+    const cachedArray = retrieveFromCache(item);
+    if (cachedArray.length) return;
+    const [data, error] = await getReq(path);
+    if (error) useError(error, navigate);
+    writeToCache(item, data);
+  }, []);
+
   useEffect(() => {
     if (!storedUser || storedUser !== userId) navigate("/error/not logged in");
     const cachedInfo = retrieveFromCache("userInfo");
@@ -38,17 +46,24 @@ function User(props) {
     const { permission, order_id } = info;
     if (!permission) return;
     setPerm(permission);
-    if (permission === "admin") return;
-    const cachedCart = retrieveFromCache("userCart");
-    if (cachedCart.length) return;
-    console.log("\n== permission ==\n", permission, "\n");
-    (async () => {
-      const [data, error] = await getReq(
-        `/users/${storedUser}/cart/${order_id}`
-      );
-      if (useError(error, navigate)) return;
-      writeToCache("userCart", data);
-    })();
+    if (permission !== "admin") {
+      (async () => {
+        await getFromServer(
+          "userCart",
+          `/users/${storedUser}/cart/${info.order_id}`
+        );
+        await getFromServer(
+          "purchaseHistory",
+          `/users/${storedUser}/purchase%20history`
+        );
+        await getFromServer(
+          "paymentMethods",
+          `/users/${storedUser}/payment%20methods`
+        );
+      })();
+    } else {
+      //TODO: fetch admin stuff
+    }
   }, [info]);
 
   return (

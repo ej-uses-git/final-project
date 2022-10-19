@@ -33,6 +33,23 @@ async function postReq(path, body) {
   }
 }
 
+async function putReq(path, body) {
+  try {
+    const raw = JSON.stringify(body);
+    console.log("\n== raw ==\n", raw, "\n");
+    const res = await fetch(`${SERVER_URL}${path}`, {
+      method: "PUT",
+      headers: new Headers({ "Content-type": "application/json" }),
+      body: raw
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return [data];
+  } catch (error) {
+    return [false, error];
+  }
+}
+
 async function getReq(path) {
   try {
     const res = await fetch(`${SERVER_URL}${path}`, {
@@ -46,4 +63,4 @@ async function getReq(path) {
   }
 }
 
-export { getReq, postReq, usermanageReq };
+export { getReq, postReq, putReq, usermanageReq };

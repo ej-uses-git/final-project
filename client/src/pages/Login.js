@@ -15,7 +15,7 @@ function Login(props) {
       username: username.current.value,
       password: password.current.value //TODO: encrypt
     });
-    if (useError(error, navigate)) return;
+    if (error) useError(error, navigate);
     if (!data) return alert("False info."); //TODO: use form validation
     const userId = data;
     localStorage.setItem("currentUser", userId);

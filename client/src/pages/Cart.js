@@ -2,8 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { CacheContext } from "../App";
 
 function Cart(props) {
-  //TODO: display cart from GET Cart For User
-
   const { retrieveFromCache } = useContext(CacheContext);
 
   const [cart, setCart] = useState([]);
