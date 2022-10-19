@@ -85,7 +85,7 @@ function App() {
                 <Route path="shop" element={<Outlet />}>
                   <Route index element={<Shop />} />
                   <Route
-                    path="products/:productId"
+                    path="products/:productName/:productId"
                     element={<ProductDetails />}
                   />
                 </Route>

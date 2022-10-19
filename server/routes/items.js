@@ -21,6 +21,11 @@ router.get("/:itemId/photos", async (req, res, next) => {
     );
     result = result[0]?.photos;
     if (!result) return res.json([]);
+    try {
+      await fs.access(path.join(__dirname, "../public/images/items/", result));
+    } catch (error) {
+      return res.json(false);
+    }
     result = await fs.readdir(
       path.join(__dirname, "../public/images/items/", result)
     );
@@ -52,6 +57,18 @@ router.post("/:itemId/uploadphotos", async (req, res, next) => {
     if (!dirName) return res.json([]);
     const files = req.files?.file;
     if (!files) return res.send(false);
+
+    if (!(files instanceof Array)) {
+      const newPath = path.join(
+        __dirname,
+        "../public/images/items/",
+        dirName,
+        files.name
+      );
+      const err = await util.promisify(files.mv)(newPath);
+      if (err) throw new Error("couldn't upload files");
+      return res.json(true);
+    }
 
     await files.forEach(async (file) => {
       const newPath = path.join(

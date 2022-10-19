@@ -39,7 +39,10 @@ function Shop(props) {
       </select>
 
       {display.map(product => (
-        <Link to={`products/${product.product_id}`} key={product.product_id}>
+        <Link
+          to={`products/${product.product_name}/${product.product_id}`}
+          key={product.product_id}
+        >
           <img
             src={`http://localhost:8090/images/mainphotos/${product.product_id}.jpg`}
             alt={product.product_name}
