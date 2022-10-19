@@ -5,8 +5,7 @@ import { getReq, uploadFile } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
 function EditItems(props) {
-  //TODO: show all items for a product (like in product details)
-
+  //TODO: back button (leads to edit products page)
   const navigate = useNavigate();
 
   const { productId } = useParams();
@@ -72,6 +71,10 @@ function EditItems(props) {
           <Item itemId={item.item_id} color={item.item_color} />
         </Link>
       ))}
+
+      <Link to="new">
+        <button>Add New Item</button>
+      </Link>
     </>
   );
 }

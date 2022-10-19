@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Product from "../components/Product";
 import { getReq, uploadFile } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
@@ -10,7 +10,6 @@ function EditProducts(props) {
   const navigate = useNavigate();
 
   const localCache = useRef([[], [], []]);
-
 
   const [selector, setSelector] = useState(0);
   const [display, setDisplay] = useState([]);
@@ -29,8 +28,6 @@ function EditProducts(props) {
     setDisplay(data);
     localCache.current[e.target.value] = data;
   }, []);
-
-
 
   useEffect(() => {
     handleChange({ target: { value: 0 } });
@@ -51,7 +48,9 @@ function EditProducts(props) {
         />
       ))}
 
-    
+      <Link to="../new">
+        <button>Add New Product</button>
+      </Link>
     </>
   );
 }

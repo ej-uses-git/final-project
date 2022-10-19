@@ -58,9 +58,8 @@ router.post("/:itemId/uploadphotos", async (req, res, next) => {
     if (!req.files) return res.send(false);
 
     for (let key in req.files) {
-      console.log("\n== dirname ==\n", dirName, "\n");
       const file = req.files[key];
-      console.log("\n== file ==\n", file, "\n");
+
       const newPath = path.join(
         __dirname,
         "../public/images/items",

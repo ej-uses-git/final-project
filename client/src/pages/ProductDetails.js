@@ -6,6 +6,7 @@ import useError from "../utilities/useError";
 
 function ProductDetails(props) {
   //TODO: enable adding an item to cart
+  //TODO: back button (leads to show products page)
 
   const navigate = useNavigate();
 

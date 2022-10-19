@@ -62,8 +62,6 @@ function User(props) {
           `/users/${storedUser}/payment%20methods`
         );
       })();
-    } else {
-      //TODO: fetch admin stuff
     }
   }, [info]);
 

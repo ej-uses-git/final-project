@@ -14,6 +14,7 @@ import Info from "./pages/Info";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import LoggedIn from "./pages/LoggedIn";
+import NewItem from "./pages/NewItem";
 import NewProduct from "./pages/NewProduct";
 import Payments from "./pages/Payments";
 import PurchaseHistory from "./pages/PurchaseHistory";
@@ -118,6 +119,8 @@ function App() {
                       path=":itemId/upload"
                       element={<UploadItemPhotos />}
                     />
+
+                    <Route path="new" element={<NewItem />} />
                   </Route>
                 </Route>
               </Route>

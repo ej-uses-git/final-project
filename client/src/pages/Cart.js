@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { CacheContext } from "../App";
 
 function Cart(props) {
+  //TODO: enable sending PUT Fulfill Order
+  //TODO: update userCart and purchaseHistory in cache
+
   const { retrieveFromCache } = useContext(CacheContext);
 
   const [cart, setCart] = useState([]);

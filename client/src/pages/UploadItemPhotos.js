@@ -4,9 +4,6 @@ import { uploadFile } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
 function UploadItemPhotos(props) {
-  //TODO: send UPLOAD Item Photos
-  // /items/:itemId/uploadphotos
-
   const navigate = useNavigate();
 
   const { itemId } = useParams();

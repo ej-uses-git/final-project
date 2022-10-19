@@ -41,6 +41,7 @@ function Shop(props) {
 
       {display.map(product => (
         <Product
+          key={product.product_id}
           path={`products/${product.product_name}/${product.product_id}`}
           product={product}
         />
