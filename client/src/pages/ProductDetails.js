@@ -33,7 +33,6 @@ function ProductDetails(props) {
       if (!data) return alert("Not enough items in stock.");
       const cachedCart = retrieveFromCache("userCart");
       const itemData = display.find(item => item.item_id === itemId);
-      console.log("\n== display ==\n", display, "\n");
       writeToCache("userCart", [
         ...cachedCart,
         {
