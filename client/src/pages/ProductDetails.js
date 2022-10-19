@@ -46,6 +46,7 @@ function ProductDetails(props) {
           photos: itemData.photos
         }
       ]);
+      e.target.reset();
     },
     [display, retrieveFromCache]
   );
