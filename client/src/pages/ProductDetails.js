@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Item from "../components/Item";
 import { getReq } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
 function ProductDetails(props) {
   //TODO: enable adding an item to cart
-  //TODO: back button (leads to show products page)
 
   const navigate = useNavigate();
 
@@ -37,6 +36,10 @@ function ProductDetails(props) {
           color={item.item_color}
         />
       ))}
+
+      <Link to="../../shop">
+        <button>Back To Products</button>
+      </Link>
     </>
   );
 }

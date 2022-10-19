@@ -43,6 +43,7 @@ function EditProducts(props) {
 
       {display.map(product => (
         <Product
+          key={product.product_id}
           path={`../${product.product_name}/${product.product_id}`}
           product={product}
         />

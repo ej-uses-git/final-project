@@ -5,7 +5,6 @@ import { getReq, uploadFile } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
 function EditItems(props) {
-  //TODO: back button (leads to edit products page)
   const navigate = useNavigate();
 
   const { productId } = useParams();
@@ -74,6 +73,10 @@ function EditItems(props) {
 
       <Link to="new">
         <button>Add New Item</button>
+      </Link>
+
+      <Link to="../edit">
+        <button>Back To Products</button>
       </Link>
     </>
   );

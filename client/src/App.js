@@ -87,16 +87,22 @@ function App() {
 
               <Route path=":userId" element={<User />}>
                 <Route index element={<Navigate to="info" />} />
+
                 <Route path="info" element={<Info />} />
+
                 <Route path="shop" element={<Outlet />}>
                   <Route index element={<Shop />} />
+                  
                   <Route
                     path="products/:productName/:productId"
                     element={<ProductDetails />}
                   />
                 </Route>
+
                 <Route path="cart" element={<Cart />} />
+
                 <Route path="payments" element={<Payments />} />
+
                 <Route path="orderhistory" element={<PurchaseHistory />} />
               </Route>
 
