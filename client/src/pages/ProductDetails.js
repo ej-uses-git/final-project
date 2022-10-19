@@ -32,6 +32,17 @@ function ProductDetails(props) {
       if (error) return useError(error, navigate);
       if (!data) return alert("Not enough items in stock.");
       const cachedCart = retrieveFromCache("userCart");
+      console.log("\n== data ==\n", data, "\n");
+      if (data.amount) {
+        const copy = [...cachedCart];
+        const changedIndex = copy.findIndex(item => item.item_id === itemId);
+        const oldAmount = copy[changedIndex].amount;
+        copy[changedIndex] = {
+          ...copy[changedIndex],
+          amount: oldAmount + parseFloat(data.amount)
+        };
+        return writeToCache("userCart", copy);
+      }
       const itemData = display.find(item => item.item_id === itemId);
       writeToCache("userCart", [
         ...cachedCart,
@@ -42,6 +53,7 @@ function ProductDetails(props) {
           item_color: itemData.item_color,
           item_amount: itemData.item_amount,
           product_id: productId,
+          cost: itemData.cost,
           photos: itemData.photos
         }
       ]);
@@ -63,15 +75,20 @@ function ProductDetails(props) {
 
   return (
     <>
-      {display.map(item => (
-        <Item
-          key={item.item_id}
-          itemId={item.item_id}
-          color={item.item_color}
-          addToCart={amount => addToCart(item.item_id, amount)}
-          itemAmount={item.item_amount}
-        />
-      ))}
+      {display.map(item =>
+        item.item_amount ? (
+          <Item
+            key={item.item_id}
+            itemId={item.item_id}
+            color={item.item_color}
+            cost={item.cost}
+            addToCart={amount => addToCart(item.item_id, amount)}
+            itemAmount={item.item_amount}
+          />
+        ) : (
+          ""
+        )
+      )}
 
       <Link to="../../shop">
         <button>Back To Products</button>

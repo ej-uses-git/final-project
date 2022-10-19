@@ -93,7 +93,7 @@ Content-Type: application/json
 
 # Orders
 ### POST New Order
-POST http://localhost:8090/api/orders/neworder/4
+POST http://localhost:8090/api/orders/neworder/2
 Content-Type: application/json
 
 ### ADD Item To Order

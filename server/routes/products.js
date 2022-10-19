@@ -10,15 +10,18 @@ const safelyEscape = require("../utilities/safelyEscape");
 // /api/products
 
 //* GET REQUESTS
-// GET Products For Type
+// GET Items For Product
 router.get("/:productId/items", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
   let result;
   try {
     await connect();
     result = await query(
-      `SELECT *
-      FROM item
+      `SELECT i.*,
+        p.cost
+      FROM item AS i
+      JOIN product AS p
+        USING (product_id)
       WHERE product_id = ${req.params.productId}`
     );
     await end();

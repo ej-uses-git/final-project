@@ -6,6 +6,7 @@ const makeConnection = require("../utilities/makeConnection");
 // /api/types
 
 //* GET REQUESTS
+// GET Products For Type
 router.get("/:typeId/products", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
   let result;

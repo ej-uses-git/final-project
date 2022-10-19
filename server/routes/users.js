@@ -50,6 +50,7 @@ router.get("/:userId/cart/:cartId", async (req, res, next) => {
       `SELECT 
         oi.amount,
         p.product_name,
+        p.cost,
         i.*
       FROM \`order\` AS o
       JOIN order_item AS oi

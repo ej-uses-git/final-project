@@ -1,25 +1,111 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
+import { useNavigate } from "react-router-dom";
 import { CacheContext } from "../App";
+import OrderItem from "../components/OrderItem";
+import { postReq, putReq } from "../utilities/fetchUtils";
+import useError from "../utilities/useError";
 
 function Cart(props) {
-  //TODO: enable sending PUT Fulfill Order
-  //TODO: update userCart and purchaseHistory in cache
-  //TODO: display cart properly, along with images
+  const navigate = useNavigate();
 
-  const { retrieveFromCache } = useContext(CacheContext);
+  const { retrieveFromCache, writeToCache } = useContext(CacheContext);
+
+  const cachedCart = retrieveFromCache("userCart");
+  const cachedPayments = retrieveFromCache("paymentMethods");
+  const purchaseHistory = retrieveFromCache("purchaseHistory");
+  const userInfo = retrieveFromCache("userInfo");
+
+  const originalCart = useRef({});
 
   const [cart, setCart] = useState([]);
-  const cachedCart = retrieveFromCache("userCart");
+
+  const totalCost = cart.reduce(
+    (acc, cur) => acc + (cur.cost || 0) * cur.amount,
+    0
+  );
+
+  const saveChanges = useCallback(async () => {
+    const unsavedChanges = cart.filter(
+      (item, i) => item.amount !== originalCart.current[i].amount
+    );
+    if (!unsavedChanges.length) return;
+    for (let item of unsavedChanges) {
+      if (item.amount === 0)
+        setCart(prev => {
+          const copy = [...prev];
+          delete copy[copy.indexOf(item)];
+          return copy;
+        });
+      const [, error] = await putReq(
+        `/orders/${userInfo.order_id}/items/${item.item_id}`,
+        {
+          amount: item.amount
+        }
+      );
+      if (error) return useError(error, navigate);
+    }
+  }, [cart, originalCart]);
+
+  const fulfillCart = useCallback(async () => {
+    if (!cart.length) return;
+
+    const activePayment = cachedPayments.find(payment => !!payment.active)
+      .payment_info_id;
+    if (!activePayment) {
+      alert("Please configure your payment information.");
+      return navigate("../payments");
+    }
+
+    let data, error;
+    [data, error] = await putReq(`/orders/${userInfo.order_id}`, {
+      totalCost,
+      paymentInfoId: activePayment
+    });
+    if (error) return useError(error, navigate);
+    writeToCache("purchaseHistory", [...purchaseHistory, data[0]]);
+
+    console.log("\n== user_id ==\n", userInfo.user_id, "\n");
+    [data, error] = await postReq(`/orders/neworder/${userInfo.user_id}`);
+    if (error) return useError(error, navigate);
+
+    writeToCache("userCart", []);
+    writeToCache("userInfo", { ...userInfo, order_id: data });
+    setCart([]);
+  }, [cachedPayments, userInfo, purchaseHistory, cart.length]);
 
   useEffect(() => {
-    if (cachedCart.length) return setCart(cachedCart);
-  }, [cachedCart]);
+    if (cachedCart.length) {
+      originalCart.current = cachedCart;
+      setCart(cachedCart);
+    }
+  }, [cachedCart, purchaseHistory]);
 
   return (
     <>
-      {cart.map(item => (
-        <div key={item.item_id + item.amount}>Item: {JSON.stringify(item)}</div>
+      {cart.map((item, i) => (
+        <OrderItem
+          key={item.item_id}
+          item={item}
+          onClick={() => {
+            if (item.amount > 0) {
+              setCart(prev => {
+                const copy = [...prev].map(item => ({ ...item }));
+                copy[i].amount--;
+                return copy;
+              });
+            }
+          }}
+        />
       ))}
+      Total cost: ${totalCost.toFixed(2)}
+      <button onClick={saveChanges}>Save Changes</button>
+      <button onClick={fulfillCart}>Purchase Cart</button>
     </>
   );
 }

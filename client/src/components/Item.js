@@ -4,6 +4,7 @@ import { getReq } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
 function Item(props) {
+  //TODO: use item.product_name and not from params
   const navigate = useNavigate();
 
   const amountInput = useRef();
@@ -32,6 +33,7 @@ function Item(props) {
       ))}
       <h4>{productName}</h4>
       <h5>{props.color}</h5>
+      <p>${props.cost.toFixed(2)}</p>
 
       {props.addToCart && (
         <form
@@ -42,6 +44,7 @@ function Item(props) {
           }}
         >
           <input
+            defaultValue={1}
             type="number"
             name="amount"
             id="amount"
