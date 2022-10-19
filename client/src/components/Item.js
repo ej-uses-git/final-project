@@ -38,6 +38,7 @@ function Item(props) {
           onSubmit={e => {
             e.preventDefault();
             props.addToCart(amountInput.current.value);
+            e.target.reset();
           }}
         >
           <input
