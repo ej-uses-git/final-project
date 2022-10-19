@@ -24,12 +24,13 @@ function User(props) {
     const cachedArray = retrieveFromCache(item);
     if (cachedArray.length) return;
     const [data, error] = await getReq(path);
-    if (error) useError(error, navigate);
+    if (error) return useError(error, navigate);
     writeToCache(item, data);
   }, []);
 
   useEffect(() => {
-    if (!storedUser || storedUser !== userId) navigate("/error/not logged in");
+    if (!storedUser || storedUser !== userId)
+      return navigate("/error/not logged in");
     const cachedInfo = retrieveFromCache("userInfo");
     if (cachedInfo.user_id) return;
     (async () => {

@@ -7,7 +7,7 @@ function Error(props) {
   return (
     <div>
       Error: {errorMessage.toUpperCase()}
-      <Link to="/login">To Login</Link>
+      <Link to="/">Back Home</Link>
     </div>
   );
 }

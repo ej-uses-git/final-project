@@ -13,7 +13,7 @@ function Item(props) {
   useEffect(() => {
     (async () => {
       const [data, error] = await getReq(`/items/${props.itemId}/photos`);
-      if (error) useError(error, navigate);
+      if (error) return useError(error, navigate);
       if (!data) return;
       setPhotoLinks(data);
     })();

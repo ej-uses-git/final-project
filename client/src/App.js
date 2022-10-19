@@ -98,7 +98,7 @@ function App() {
                 <Route path="info" element={<Info />} />
                 <Route path="products" element={<Outlet />}>
                   <Route index element={<Navigate to="./new" />} />
-                  <Route path="new " element={<NewProduct />} />
+                  <Route path="new" element={<NewProduct />} />
                   <Route path="edit" element={<EditProducts />} />
                   <Route path=":productId" element={<EditItems />} />
                 </Route>

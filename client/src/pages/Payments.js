@@ -36,7 +36,7 @@ function Payments(props) {
       cvv: cvv.current.value,
       expDate: expDate.current.value + "-00"
     });
-    if (error) useError(error, navigate);
+    if (error) return useError(error, navigate);
     const newPayment = {
       credit_number: creditCard.current.value,
       cvv: cvv.current.value,
@@ -67,7 +67,7 @@ function Payments(props) {
     const [, error] = await putReq(`/users/${userId}/activepay`, {
       id: payments[activeIndex].payment_info_id
     });
-    if (error) useError(error, navigate);
+    if (error) return useError(error, navigate);
   }, [payments]);
 
   useEffect(() => {

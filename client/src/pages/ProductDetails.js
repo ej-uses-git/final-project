@@ -21,7 +21,7 @@ function ProductDetails(props) {
 
     (async () => {
       const [data, error] = await getReq(`/products/${productId}/items`);
-      if (error) useError(error, navigate);
+      if (error) return useError(error, navigate);
       setDisplay(data);
       localCache.current = data;
     })();

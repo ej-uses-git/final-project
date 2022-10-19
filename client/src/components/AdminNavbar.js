@@ -6,6 +6,8 @@ function AdminNavbar(props) {
   return (
     <div>
       <NavLink to="./info">Info</NavLink>
+      <NavLink to="./products/new">New Product</NavLink>
+      <NavLink to="./products/edit">Edit Products</NavLink>
     </div>
   );
 }

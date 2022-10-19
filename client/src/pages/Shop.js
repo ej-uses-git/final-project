@@ -21,7 +21,7 @@ function Shop(props) {
     const [data, error] = await getReq(
       `/types/${parseInt(e.target.value) + 1}/products`
     );
-    if (error) useError(error, navigate);
+    if (error) return useError(error, navigate);
     setDisplay(data);
     localCache.current[e.target.value] = data;
   }, []);

@@ -5,7 +5,7 @@ function Landing(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = JSON.stringify(localStorage.getItem("currentUser"));
+    const storedUser = JSON.parse(localStorage.getItem("currentUser"));
     if (!storedUser) return navigate("/login");
     navigate("/users");
   }, []);
