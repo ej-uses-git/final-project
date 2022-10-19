@@ -23,7 +23,7 @@ function Item(props) {
     <div>
       {photoLinks.map(link => (
         <img
-          src={`http://localhost:8090/images/items/${productName}/${link}`}
+          src={`http://localhost:8090/images/items/${productName}/${props.itemId}/${link}`}
           alt={productName + " " + props.color}
           key={props.itemId}
         />

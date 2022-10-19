@@ -55,31 +55,21 @@ router.post("/:itemId/uploadphotos", async (req, res, next) => {
 
     dirName = dirName[0]?.photos;
     if (!dirName) return res.json([]);
-    const files = req.files?.file;
-    if (!files) return res.send(false);
+    if (!req.files) return res.send(false);
 
-    if (!(files instanceof Array)) {
+    for (let key in req.files) {
+      console.log("\n== dirname ==\n", dirName, "\n");
+      const file = req.files[key];
+      console.log("\n== file ==\n", file, "\n");
       const newPath = path.join(
         __dirname,
-        "../public/images/items/",
-        dirName,
-        files.name
-      );
-      const err = await util.promisify(files.mv)(newPath);
-      if (err) throw new Error("couldn't upload files");
-      return res.json(true);
-    }
-
-    await files.forEach(async (file) => {
-      const newPath = path.join(
-        __dirname,
-        "../public/images/items/",
+        "../public/images/items",
         dirName,
         file.name
       );
       const err = await util.promisify(file.mv)(newPath);
       if (err) throw new Error("couldn't upload files");
-    });
+    }
 
     await end();
     res.json(true);

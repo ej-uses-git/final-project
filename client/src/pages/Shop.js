@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Product from "../components/Product";
 import { getReq } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
@@ -39,18 +40,10 @@ function Shop(props) {
       </select>
 
       {display.map(product => (
-        <Link
-          to={`products/${product.product_name}/${product.product_id}`}
-          key={product.product_id}
-        >
-          <img
-            src={`http://localhost:8090/images/mainphotos/${product.product_id}.jpg`}
-            alt={product.product_name}
-          />
-          <h3>{product.product_name}</h3>
-          <p>{product.description}</p>
-          <p>{product.cost}</p>
-        </Link>
+        <Product
+          path={`products/${product.product_name}/${product.product_id}`}
+          product={product}
+        />
       ))}
     </>
   );

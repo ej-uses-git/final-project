@@ -31,7 +31,7 @@ CREATE TABLE `item` (
   PRIMARY KEY (`item_id`),
   KEY `item_product_id_fk_idx` (`product_id`),
   CONSTRAINT `item_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `item` (
 
 LOCK TABLES `item` WRITE;
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` VALUES (1,'blue',10,1,'Lenovo x120'),(2,'blue',10,2,'link here'),(3,'blue',10,3,'link here'),(4,'red',10,1,'link here'),(5,'red',10,2,'link here'),(6,'red',10,3,'link here'),(8,'gray',3,2,'Sportsball 30008'),(9,'gray',3,1,'Lenovo x1209');
+INSERT INTO `item` VALUES (1,'blue',10,1,'Lenovo x120/1'),(2,'blue',10,2,'Sportsball 3000/2'),(3,'blue',10,3,'Mario Odyssey/3'),(4,'red',10,1,'Lenovo x120/4'),(5,'red',10,2,'Sportsball 3000/5'),(6,'red',10,3,'Mario Odyssey/6'),(8,'gray',3,2,'Sportsball 3000/8'),(9,'gray',3,1,'Lenovo x120/9');
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -127,7 +127,7 @@ CREATE TABLE `payment_info` (
 
 LOCK TABLES `payment_info` WRITE;
 /*!40000 ALTER TABLE `payment_info` DISABLE KEYS */;
-INSERT INTO `payment_info` VALUES (1,'3333444455556666',315,'2026-08-00',2,0),(2,'3333444455556666',315,'2026-08-00',3,1),(3,'3333444455557777',342,'2028-08-00',2,1);
+INSERT INTO `payment_info` VALUES (1,'3333444455556666',315,'2026-08-00',2,1),(2,'3333444455556666',315,'2026-08-00',3,1),(3,'3333444455557777',342,'2028-08-00',2,0);
 /*!40000 ALTER TABLE `payment_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,7 +158,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Lenovo x120','a laptop baybeee',1,NULL,500.5,'Lenovo'),(2,'Sportsball 3000','a very cool sports ball',2,'2.jpg',10.4,'Spalding'),(3,'Mario Odyssey','great game guys',3,NULL,5000,'Nintendo');
+INSERT INTO `product` VALUES (1,'Lenovo x120','a laptop baybeee',1,'1.jpg',500.5,'Lenovo'),(2,'Sportsball 3000','a very cool sports ball',2,'2.jpg',10.4,'Spalding'),(3,'Mario Odyssey','great game guys',3,NULL,5000,'Nintendo');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,4 +255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-19 18:30:08
+-- Dump completed on 2022-10-19 20:40:07

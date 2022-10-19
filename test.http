@@ -83,7 +83,7 @@ Content-Type: application/json
 }
 
 ### POST New Item
-POST http://localhost:8090/api/products/4
+POST http://localhost:8090/api/products/1
 Content-Type: application/json
 
 {

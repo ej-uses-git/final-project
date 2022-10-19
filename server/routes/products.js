@@ -88,14 +88,14 @@ router.post("/:productId", async function (req, res, next) {
       `SELECT product_name FROM product WHERE product_id = ${req.params.productId}`
     );
     await query(
-      `UPDATE item SET photos = "${productName[0].product_name}${lastId}" WHERE item_id = ${lastId}`
+      `UPDATE item SET photos = "${productName[0].product_name}/${lastId}" WHERE item_id = ${lastId}`
     );
     await end();
 
     const dirPath = path.join(
       __dirname,
       "../public/images/items",
-      `${productName[0].product_name}${lastId}`
+      `${productName[0].product_name}/${lastId}`
     );
 
     try {

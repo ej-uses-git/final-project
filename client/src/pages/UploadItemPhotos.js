@@ -1,33 +1,17 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import Item from "../components/Item";
-import { getReq, uploadFile } from "../utilities/fetchUtils";
+import React, { useCallback, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { uploadFile } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
-function EditItems(props) {
-  //TODO: show all items for a product (like in product details)
+function UploadItemPhotos(props) {
+  //TODO: send UPLOAD Item Photos
+  // /items/:itemId/uploadphotos
 
   const navigate = useNavigate();
 
-  const { productId } = useParams();
-
-  const localCache = useRef([]);
+  const { itemId } = useParams();
 
   const fileInput = useRef();
-
-  const [display, setDisplay] = useState([]);
-
-  useEffect(() => {
-    const cachedItems = localCache.current;
-    if (cachedItems.length) return setDisplay(cachedItems);
-
-    (async () => {
-      const [data, error] = await getReq(`/products/${productId}/items`);
-      if (error) return useError(error, navigate);
-      setDisplay(data);
-      localCache.current = data;
-    })();
-  }, []);
 
   const handleSubmit = useCallback(async e => {
     e.preventDefault();
@@ -41,7 +25,7 @@ function EditItems(props) {
       }
 
       const [, error] = await uploadFile(
-        `/products/${productId}/newphoto`,
+        `/items/${itemId}/uploadphotos`,
         formData
       );
       if (error) throw error;
@@ -52,7 +36,7 @@ function EditItems(props) {
   }, []);
 
   return (
-    <>
+    <div>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="file-input">Select Image:</label>
@@ -66,14 +50,8 @@ function EditItems(props) {
         </div>
         <button type="submit">Upload</button>
       </form>
-
-      {display.map(item => (
-        <Link to={`${item.item_id}/upload`} key={item.item_id}>
-          <Item itemId={item.item_id} color={item.item_color} />
-        </Link>
-      ))}
-    </>
+    </div>
   );
 }
 
-export default EditItems;
+export default UploadItemPhotos;

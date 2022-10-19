@@ -50,6 +50,20 @@ async function putReq(path, body) {
   }
 }
 
+async function uploadFile(path, formData) {
+  try {
+    const res = await fetch(`${SERVER_URL}${path}`, {
+      method: "POST",
+      body: formData
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    const data = await res.json();
+    return [data];
+  } catch (error) {
+    return [false, error];
+  }
+}
+
 async function getReq(path) {
   try {
     const res = await fetch(`${SERVER_URL}${path}`, {
@@ -63,4 +77,4 @@ async function getReq(path) {
   }
 }
 
-export { getReq, postReq, putReq, usermanageReq };
+export { getReq, postReq, putReq, uploadFile, usermanageReq };
