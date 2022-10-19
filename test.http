@@ -4,7 +4,7 @@
 # GET
 # User
 ### GET User Info
-GET http://localhost:8090/api/users/2/info
+GET http://localhost:8090/api/users/1/info
 
 ### GET Cart For User
 GET http://localhost:8090/api/users/1/cart/2
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 { 
   "username": "sara", 
-  "password": "saramail@gmail.commm"
+  "email": "asdf@gmail.com"
 }
 
 ### REGISTER New User
@@ -94,7 +94,7 @@ Content-Type: application/json
 # Orders
 ### POST New Order
 POST http://localhost:8090/api/orders/neworder/4
-Content-Type: application/json 
+Content-Type: application/json
 
 ### ADD Item To Order
 POST http://localhost:8090/api/orders/4/items

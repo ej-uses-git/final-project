@@ -1,6 +1,14 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { CacheContext } from "../App";
+import { postReq, usermanageReq } from "../utilities/fetchUtils";
+import useError from "../utilities/useError";
 
 // /register
 
@@ -11,6 +19,8 @@ function Register(props) {
 
   const [page, setPage] = useState(1);
 
+  const firstPageValues = useRef(null);
+
   const username = useRef();
   const passwordA = useRef();
   const passwordB = useRef();
@@ -20,31 +30,69 @@ function Register(props) {
 
   const handlePageOne = useCallback(e => {
     e.preventDefault();
+    if (passwordA.current.value !== passwordB.current.value)
+      return alert("Please ensure the passwords match."); //TODO: use form validation
+    firstPageValues.current = {
+      username: username.current.value,
+      passwordA: passwordA.current.value,
+      passwordB: passwordB.current.value
+    };
     setPage(2);
   }, []);
 
-  const handlePageTwo = useCallback(e => {
+  const goBack = useCallback(() => {
+    setPage(1);
+  });
+
+  const handlePageTwo = useCallback(async e => {
     e.preventDefault();
-    //TODO: Send CHECK User Existence
-    //TODO: Send REGISTER New User
-    const userId = 1;
-    const permission = "customer"; // || "admin"
+    let data, error;
+
+    [data, error] = await usermanageReq("/register/check", {
+      username: firstPageValues.current.username,
+      email: email.current.value
+    });
+    if (useError(error, navigate)) return;
+    if (!data)
+      return alert(
+        "Information already taken. Try changing your username or email."
+      ); //TODO: use form validation
+
+    [data, error] = await usermanageReq("/register", {
+      username: firstPageValues.current.username,
+      password: firstPageValues.current.passwordA,
+      email: email.current.value,
+      phoneNumber: phoneNum.current.value,
+      address: address.current.value,
+      permission: "customer"
+    });
+    if (useError(error, navigate)) return;
+    const userId = data;
     localStorage.setItem("currentUser", userId);
-    //TODO: Send POST New Order (if not admin)
-    const cartId = 1;
+
+    [data, error] = await postReq(`/orders/neworder/${userId}`);
+    if (useError(error, navigate)) return;
+    const cartId = data;
+
     writeToCache("userInfo", {
       userId,
-      username: username.current,
-      email: email.current,
-      address: address.current,
-      phoneNum: phoneNum.current,
-      permission,
+      username: firstPageValues.current.username,
+      email: email.current.value,
+      address: address.current.value,
+      phoneNum: phoneNum.current.value,
+      permission: "customer",
       cartId
     });
     navigate("/users");
-    // if (false /* user is admin */) return navigate(`/users/admin/${userId}`);
-    // return navigate(`/users/${userId}`);
   }, []);
+
+  useEffect(() => {
+    if (page !== 1 || !firstPageValues.current) return;
+    username.current.value = firstPageValues.current.username;
+    passwordA.current.value = firstPageValues.current.passwordA;
+    passwordB.current.value = firstPageValues.current.passwordB;
+    firstPageValues.current = null;
+  }, [page]);
 
   return (
     <div>
@@ -117,9 +165,11 @@ function Register(props) {
             />
           </div>
 
+          <button onClick={goBack}>BACK</button>
           <button type="submit">SIGN UP</button>
         </form>
       )}
+      Already signed up? <Link to="/login">Log in here!</Link>
     </div>
   );
 }

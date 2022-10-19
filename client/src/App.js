@@ -26,14 +26,18 @@ export const CacheContext = createContext();
 
 function App() {
   const cache = useRef({
-    /*TODO: cache info template */
-    userInfo: {}
+    userInfo: {},
+    userCart: [],
+    purchaseHistory: [],
+    paymentMethods: []
   });
 
   const clearCache = useCallback(() => {
     cache.current = {
-      /* cache info template */
-      userInfo: {}
+      userInfo: {},
+      userCart: [],
+      purchaseHistory: [],
+      paymentMethods: []
     };
   }, []);
 
@@ -97,7 +101,13 @@ function App() {
                 </Route>
               </Route>
             </Route>
-            <Route path="*" element={<Error />} />
+            <Route path="error" element={<Outlet />}>
+              <Route path=":errorMessage" element={<Error />} />
+            </Route>
+            <Route
+              path="*"
+              element={<Navigate to="/error/something went wrong" />}
+            />
           </Routes>
         </CacheContext.Provider>
       </BrowserRouter>

@@ -31,11 +31,11 @@
 - GET Purchase History For User [[works]]
   1. URL: `/api/users/:userId/purchase+history`
   2. ???
-  3. Response: `` | error
+  3. Response: `[Order {}, ...]` | error
 - GET Payment Methods For User [[works]]
   1. URL: `/api/users/:userId/payment+methods`
   2. ???
-  3. Response: `` | error
+  3. Response: `[PaymentInfo {}, ...]` | error
 
 #### Product
 

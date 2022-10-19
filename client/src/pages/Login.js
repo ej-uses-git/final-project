@@ -1,5 +1,7 @@
 import React, { useCallback, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { usermanageReq } from "../utilities/fetchUtils";
+import useError from "../utilities/useError";
 
 function Login(props) {
   const navigate = useNavigate();
@@ -7,12 +9,17 @@ function Login(props) {
   const username = useRef();
   const password = useRef();
 
-  const handleSubmit = useCallback(e => {
+  const handleSubmit = useCallback(async e => {
     e.preventDefault();
-    // TODO: Send CHECK Login Info
-    const userId = 1; //!
-    if (false /* user is admin */) return navigate(`/users/admin/${userId}`);
-    return navigate(`/users/${userId}`);
+    const [data, error] = await usermanageReq("/login", {
+      username: username.current.value,
+      password: password.current.value //TODO: encrypt
+    });
+    if (useError(error, navigate)) return;
+    if (!data) return alert("False info."); //TODO: use form validation
+    const userId = data;
+    localStorage.setItem("currentUser", userId);
+    return navigate(`/users`);
   }, []);
 
   return (
@@ -43,6 +50,7 @@ function Login(props) {
 
         <button type="submit">Log In</button>
       </form>
+      <Link to="/register">Sign Up Here</Link>
     </div>
   );
 }

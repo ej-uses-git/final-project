@@ -23,11 +23,11 @@ router.get("/:userId/info", async (req, res, next) => {
         u.permission,
         o.order_id
       FROM user AS u
-      JOIN \`order\` AS o
+      LEFT JOIN \`order\` AS o
         USING (user_id)
       WHERE 
         u.user_id = ${req.params.userId}
-        AND o.status = 'cart'`
+        AND (o.status = 'cart' OR u.permission = 'admin')`
     );
     console.log("\n== result ==\n", result, "\n");
     await end();
