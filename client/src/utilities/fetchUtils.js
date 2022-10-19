@@ -36,7 +36,7 @@ async function postReq(path, body) {
 async function putReq(path, body) {
   try {
     const raw = JSON.stringify(body);
-    console.log("\n== raw ==\n", raw, "\n");
+
     const res = await fetch(`${SERVER_URL}${path}`, {
       method: "PUT",
       headers: new Headers({ "Content-type": "application/json" }),
