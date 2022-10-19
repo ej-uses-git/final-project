@@ -1,19 +1,54 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Item from "../components/Item";
-import { getReq } from "../utilities/fetchUtils";
+import { CacheContext } from "../App";
+import { getReq, postReq } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
 function ProductDetails(props) {
-  //TODO: enable adding an item to cart
-
   const navigate = useNavigate();
 
-  const { productId } = useParams();
+  const { retrieveFromCache, writeToCache } = useContext(CacheContext);
+
+  const { productId, productName } = useParams();
 
   const localCache = useRef([]);
 
   const [display, setDisplay] = useState([]);
+
+  const addToCart = useCallback(
+    async (itemId, amount) => {
+      const { order_id } = retrieveFromCache("userInfo");
+      const [data, error] = await postReq(`/orders/${order_id}/items`, {
+        itemId,
+        amount
+      });
+      if (error) return useError(error, navigate);
+      if (!data) return alert("Not enough items in stock.");
+      const cachedCart = retrieveFromCache("userCart");
+      const itemData = display.find(item => item.item_id === itemId);
+      console.log("\n== display ==\n", display, "\n");
+      writeToCache("userCart", [
+        ...cachedCart,
+        {
+          amount,
+          product_name: productName,
+          item_id: itemId,
+          item_color: itemData.item_color,
+          item_amount: itemData.item_amount,
+          product_id: productId,
+          photos: itemData.photos
+        }
+      ]);
+    },
+    [display, retrieveFromCache]
+  );
 
   useEffect(() => {
     const cachedItems = localCache.current;
@@ -34,6 +69,8 @@ function ProductDetails(props) {
           key={item.item_id}
           itemId={item.item_id}
           color={item.item_color}
+          addToCart={amount => addToCart(item.item_id, amount)}
+          itemAmount={item.item_amount}
         />
       ))}
 

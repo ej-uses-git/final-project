@@ -17,7 +17,7 @@ function Cart(props) {
   return (
     <>
       {cart.map(item => (
-        <div key={item.item_id}>Item: {JSON.stringify(item)}</div>
+        <div key={item.item_id + item.amount}>Item: {JSON.stringify(item)}</div>
       ))}
     </>
   );

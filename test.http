@@ -101,8 +101,8 @@ POST http://localhost:8090/api/orders/4/items
 Content-Type: application/json
 
 {
-  "itemId": "1",
-  "amount": "2"
+  "itemId": "9",
+  "amount": "3"
 }
 
 ### ADD Photo To Product

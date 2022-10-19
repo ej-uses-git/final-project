@@ -25,14 +25,28 @@ router.post("/neworder/:userId", async function (req, res, next) {
 // ADD Item To Order
 router.post("/:orderId/items", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
-  const createItem =
-    `INSERT INTO order_item (order_id, item_id, amount) ` +
-    `VALUES(${req.params.orderId}, ${req.body.itemId}, ${req.body.amount});`;
-  const selectId = `SELECT LAST_INSERT_ID();`;
   try {
     await connect();
-    await query(createItem);
-    const selectIdResult = await query(selectId);
+    let amount = await query(
+      `SELECT item_amount
+      FROM item
+      WHERE item_id = ${req.body.itemId}`
+    );
+    amount = amount[0].item_amount;
+    if (amount - req.body.amount < 0) {
+      await end();
+      return res.json(false);
+    }
+    await query(
+      `UPDATE item 
+      SET item_amount = ${amount - req.body.amount} 
+      WHERE item_id = ${req.body.itemId}`
+    );
+    await query(
+      `INSERT INTO order_item (order_id, item_id, amount)
+      VALUES(${req.params.orderId}, ${req.body.itemId}, ${req.body.amount});`
+    );
+    const selectIdResult = await query(`SELECT LAST_INSERT_ID();`);
     await end();
     return res.json(selectIdResult[0]["LAST_INSERT_ID()"]);
   } catch (error) {

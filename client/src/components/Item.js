@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getReq } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
 function Item(props) {
   const navigate = useNavigate();
+
+  const amountInput = useRef();
 
   const { productName } = useParams();
 
@@ -30,6 +32,25 @@ function Item(props) {
       ))}
       <h4>{productName}</h4>
       <h5>{props.color}</h5>
+
+      {props.addToCart && (
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            props.addToCart(amountInput.current.value);
+          }}
+        >
+          <input
+            type="number"
+            name="amount"
+            id="amount"
+            ref={amountInput}
+            min={1}
+            max={props.itemAmount}
+          />
+          <button type="submit">Add To Cart</button>
+        </form>
+      )}
     </div>
   );
 }
