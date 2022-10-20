@@ -18,7 +18,8 @@ router.get("/:productId/items", async (req, res, next) => {
     await connect();
     result = await query(
       `SELECT i.*,
-        p.cost
+        p.cost,
+        p.product_name
       FROM item AS i
       JOIN product AS p
         USING (product_id)

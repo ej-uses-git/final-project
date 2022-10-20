@@ -43,6 +43,7 @@ function EditItems(props) {
       if (error) return useError(error, navigate);
       setDisplay(data);
       localCache.current = data;
+      console.log("\n== data ==\n", data, "\n");
     })();
   }, []);
 
@@ -101,6 +102,7 @@ function EditItems(props) {
                 color={item.item_color}
                 cost={item.cost}
                 productName={item.product_name}
+                itemAmount={item.item_amount}
               />
             </Link>
           </div>

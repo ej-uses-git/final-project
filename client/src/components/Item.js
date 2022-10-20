@@ -14,6 +14,7 @@ function Item(props) {
   const [photoLinks, setPhotoLinks] = useState([]);
 
   useEffect(() => {
+    if (photoLinks.length) return;
     (async () => {
       const [data, error] = await getReq(`/items/${props.itemId}/photos`);
       if (error) return useError(error, navigate);
@@ -43,7 +44,7 @@ function Item(props) {
       </p>
 
       <p className="ff-body fw-regular fs-200 text-primary-800">
-        {props?.itemAmount === 0 && "Out of stock"}
+        {props.itemAmount === 0 && "Out of stock"}
       </p>
 
       {props.addToCart && (
