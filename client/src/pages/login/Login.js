@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { usermanageReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import { usermanageReq } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
 function Login(props) {
   const navigate = useNavigate();

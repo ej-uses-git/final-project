@@ -7,22 +7,22 @@ import {
   Navigate
 } from "react-router-dom";
 import "./App.css";
-import Cart from "./pages/Cart";
-import EditItems from "./pages/EditItems";
-import EditProducts from "./pages/EditProducts";
-import Info from "./pages/Info";
+import Cart from "./pages/customer/Cart";
+import EditItems from "./pages/admin/EditItems";
+import EditProducts from "./pages/admin/EditProducts";
+import Info from "./pages/user/Info";
 import Landing from "./pages/Landing";
-import Login from "./pages/Login";
-import LoggedIn from "./pages/LoggedIn";
-import NewItem from "./pages/NewItem";
-import NewProduct from "./pages/NewProduct";
-import Payments from "./pages/Payments";
-import PurchaseHistory from "./pages/PurchaseHistory";
-import ProductDetails from "./pages/ProductDetails";
-import Register from "./pages/Register";
-import Shop from "./pages/Shop";
-import UploadItemPhotos from "./pages/UploadItemPhotos";
-import User from "./pages/User";
+import Login from "./pages/login/Login";
+import LoggedIn from "./pages/user/LoggedIn";
+import NewItem from "./pages/admin/NewItem";
+import NewProduct from "./pages/admin/NewProduct";
+import Payments from "./pages/customer/Payments";
+import PurchaseHistory from "./pages/customer/PurchaseHistory";
+import ProductDetails from "./pages/customer/ProductDetails";
+import Register from "./pages/login/Register";
+import Shop from "./pages/customer/Shop";
+import UploadItemPhotos from "./pages/admin/UploadItemPhotos";
+import User from "./pages/user/User";
 import Error from "./Error";
 
 export const CacheContext = createContext();
@@ -92,7 +92,7 @@ function App() {
 
                 <Route path="shop" element={<Outlet />}>
                   <Route index element={<Shop />} />
-                  
+
                   <Route
                     path="products/:productName/:productId"
                     element={<ProductDetails />}

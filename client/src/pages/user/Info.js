@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CacheContext } from "../App";
+import { CacheContext } from "../../App";
 
 function Info(props) {
   const [info, setInfo] = useState({});

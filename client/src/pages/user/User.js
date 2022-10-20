@@ -1,10 +1,10 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import AdminNavbar from "../components/AdminNavbar";
-import CustomerNavbar from "../components/CustomerNavbar";
-import { CacheContext } from "../App";
-import { getReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import AdminNavbar from "../../components/AdminNavbar";
+import CustomerNavbar from "../../components/CustomerNavbar";
+import { CacheContext } from "../../App";
+import { getReq } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
 function User(props) {
   const navigate = useNavigate();

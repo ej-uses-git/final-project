@@ -6,10 +6,10 @@ import React, {
   useState
 } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Item from "../components/Item";
-import { CacheContext } from "../App";
-import { getReq, postReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import Item from "../../components/Item";
+import { CacheContext } from "../../App";
+import { getReq, postReq } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
 function ProductDetails(props) {
   const navigate = useNavigate();

@@ -6,9 +6,9 @@ import React, {
   useState
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { CacheContext } from "../App";
-import { postReq, putReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import { CacheContext } from "../../App";
+import { postReq, putReq } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
 function Payments(props) {
   const navigate = useNavigate();

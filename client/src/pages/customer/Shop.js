@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Product from "../components/Product";
-import { getReq, uploadFile } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import { useNavigate } from "react-router-dom";
+import Product from "../../components/Product";
+import { getReq } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
-function EditProducts(props) {
+function Shop(props) {
   const navigate = useNavigate();
 
   const localCache = useRef([[], [], []]);
@@ -32,7 +32,7 @@ function EditProducts(props) {
   }, []);
 
   return (
-    <div className="edit-products">
+    <div className="shop">
       <select className="filter" value={selector} onChange={handleChange}>
         <option value={0}>Laptops</option>
         <option value={1}>Sports</option>
@@ -42,18 +42,12 @@ function EditProducts(props) {
       {display.map(product => (
         <Product
           key={product.product_id}
-          path={`../${product.product_name}/${product.product_id}`}
+          path={`products/${product.product_name}/${product.product_id}`}
           product={product}
         />
       ))}
-
-      <div className="no-dec">
-        <Link to="../new">
-          <button className="new-product-button button">Add New Product</button>
-        </Link>
-      </div>
     </div>
   );
 }
 
-export default EditProducts;
+export default Shop;

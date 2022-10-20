@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { uploadFile } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import { uploadFile } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
 function UploadItemPhotos(props) {
   const navigate = useNavigate();

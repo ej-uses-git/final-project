@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Item from "../components/Item";
-import { getReq, uploadFile } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import Item from "../../components/Item";
+import { getReq, uploadFile } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
 function EditItems(props) {
   const navigate = useNavigate();

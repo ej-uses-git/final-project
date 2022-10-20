@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import { postReq } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
 function NewProduct(props) {
   const navigate = useNavigate();

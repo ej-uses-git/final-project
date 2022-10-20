@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CacheContext } from "../App";
-import { getReq } from "../utilities/fetchUtils";
+import { CacheContext } from "../../App";
+import { getReq } from "../../utilities/fetchUtils";
 
 function LoggedIn(props) {
   const navigate = useNavigate();

@@ -6,10 +6,10 @@ import React, {
   useState
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { CacheContext } from "../App";
-import OrderItem from "../components/OrderItem";
-import { postReq, putReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import { CacheContext } from "../../App";
+import OrderItem from "../../components/OrderItem";
+import { postReq, putReq } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
 
 function Cart(props) {
   const navigate = useNavigate();

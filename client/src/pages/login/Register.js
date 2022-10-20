@@ -6,10 +6,10 @@ import React, {
   useState
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { CacheContext } from "../App";
-import { postReq, usermanageReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
-import { encryptPassword } from "../utilities/encrypt";
+import { CacheContext } from "../../App";
+import { postReq, usermanageReq } from "../../utilities/fetchUtils";
+import useError from "../../utilities/useError";
+import { encryptPassword } from "../../utilities/encrypt";
 
 // /register
 
