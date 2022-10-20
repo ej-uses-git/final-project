@@ -58,7 +58,7 @@ CREATE TABLE `order` (
   PRIMARY KEY (`order_id`),
   KEY `order_user_id_fk_idx` (`user_id`),
   CONSTRAINT `order_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `order` (
 
 LOCK TABLES `order` WRITE;
 /*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,2,'fulfilled'),(2,2,'cart'),(3,3,'fulfilled'),(4,2,'fulfilled'),(5,3,'cart'),(6,3,'fulfilled');
+INSERT INTO `order` VALUES (1,2,'fulfilled'),(2,2,'cart'),(3,3,'fulfilled'),(4,2,'fulfilled'),(5,3,'cart'),(6,3,'fulfilled'),(7,4,'cart');
 /*!40000 ALTER TABLE `order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +233,7 @@ CREATE TABLE `user` (
   `password` text NOT NULL,
   `permission` enum('customer','admin') NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +242,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Bret','asdf@gmail.com','Your mama\'s house','055555555','asdfasdf','admin'),(2,'bobbart55','as123@gmail.com','Your daddy\'s house','055555555','12345678','customer'),(3,'superman','ayyyy@gmail.com','no one knows','055555555','753951852','customer');
+INSERT INTO `user` VALUES (1,'Bret','asdf@gmail.com','Your mama\'s house','055555555','Hv6GHv6G8M%2k4X','admin'),(2,'bobbart55','as123@gmail.com','Your daddy\'s house','055555555','*Nd@aQKTwfx1s0_','customer'),(3,'superman','ayyyy@gmail.com','no one knows','055555555','WVATV6@VewxO1n1$','customer'),(4,'evyatar','evyatarshafran@gmail.com','asdfasdf','0586311211','hHDXqfhHDXqf4U&10/','customer');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -255,4 +255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-10-19 21:06:13
+-- Dump completed on 2022-10-20  4:14:06

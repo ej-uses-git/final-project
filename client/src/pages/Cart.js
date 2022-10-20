@@ -55,12 +55,12 @@ function Cart(props) {
   const fulfillCart = useCallback(async () => {
     if (!cart.length) return;
 
-    const activePayment = cachedPayments.find(payment => !!payment.active)
-      .payment_info_id;
+    let activePayment = cachedPayments.find(payment => !!payment.active);
     if (!activePayment) {
       alert("Please configure your payment information.");
       return navigate("../payments");
     }
+    activePayment = activePayment.payment_info_id;
 
     let data, error;
     [data, error] = await putReq(`/orders/${userInfo.order_id}`, {

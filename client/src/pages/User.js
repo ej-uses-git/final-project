@@ -48,9 +48,10 @@ function User(props) {
     setPerm(permission);
     if (permission !== "admin") {
       (async () => {
+        if (!order_id) return;
         await getFromServer(
           "userCart",
-          `/users/${storedUser}/cart/${info.order_id}`
+          `/users/${storedUser}/cart/${order_id}`
         );
         await getFromServer(
           "purchaseHistory",

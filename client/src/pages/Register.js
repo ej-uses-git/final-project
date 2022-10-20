@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CacheContext } from "../App";
 import { postReq, usermanageReq } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
+import { encryptPassword } from "../utilities/encrypt";
 
 // /register
 
@@ -60,7 +61,7 @@ function Register(props) {
 
     [data, error] = await usermanageReq("/register", {
       username: firstPageValues.current.username,
-      password: firstPageValues.current.passwordA,
+      password: encryptPassword(firstPageValues.current.passwordA),
       email: email.current.value,
       phoneNumber: phoneNum.current.value,
       address: address.current.value,
