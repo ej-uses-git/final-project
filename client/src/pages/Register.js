@@ -95,12 +95,20 @@ function Register(props) {
   }, [page]);
 
   return (
-    <div>
-      Register
+    <div className="register-page flex-col">
+      <h2 className="fs-600 ff-headings fw-bold text-primary-600">Register</h2>
       {page === 1 && (
-        <form onSubmit={handlePageOne}>
-          <div>
-            <label htmlFor="username">Enter your username:</label>
+        <form
+          className="register-form | def-form flex-col"
+          onSubmit={handlePageOne}
+        >
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="username"
+            >
+              Enter your username:
+            </label>
             <input
               required
               type="text"
@@ -110,8 +118,13 @@ function Register(props) {
             />
           </div>
 
-          <div>
-            <label htmlFor="passwordA">Enter your password:</label>
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="passwordA"
+            >
+              Enter your password:
+            </label>
             <input
               required
               type="password"
@@ -121,8 +134,13 @@ function Register(props) {
             />
           </div>
 
-          <div>
-            <label htmlFor="passwordB">Confirm your password:</label>
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="passwordB"
+            >
+              Confirm your password:
+            </label>
             <input
               required
               type="password"
@@ -132,30 +150,50 @@ function Register(props) {
             />
           </div>
 
-          <button type="submit">NEXT</button>
+          <button className="button" type="submit">
+            NEXT
+          </button>
         </form>
       )}
       {page === 2 && (
-        <form onSubmit={handlePageTwo}>
-          <div>
-            <label htmlFor="email">Enter your email:</label>
+        <form
+          className="register-form | def-form flex-col"
+          onSubmit={handlePageTwo}
+        >
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="email"
+            >
+              Enter your email:
+            </label>
             <input required type="email" name="email" id="email" ref={email} />
           </div>
 
-          <div>
-            <label htmlFor="phoneNum">Enter your phone number:</label>
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="phoneNum"
+            >
+              Enter your phone number:
+            </label>
             <input
               required
               type="text"
-              pattern="123"
+              pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
               name="phoneNum"
               id="phone-num"
               ref={phoneNum}
             />
           </div>
 
-          <div>
-            <label htmlFor="address">Enter your home address:</label>
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="address"
+            >
+              Enter your home address:
+            </label>
             <input
               required
               type="text"
@@ -165,11 +203,22 @@ function Register(props) {
             />
           </div>
 
-          <button onClick={goBack}>BACK</button>
-          <button type="submit">SIGN UP</button>
+          <div className="container container--small">
+            <button className="button" onClick={goBack}>
+              BACK
+            </button>
+            <button className="button" type="submit">
+              SIGN UP
+            </button>
+          </div>
         </form>
       )}
-      Already signed up? <Link to="/login">Log in here!</Link>
+      <p className="fs-200 ff-body fw-regular text-accent-800">
+        Already signed up?
+      </p>
+      <Link to="/login" className="fs-200 ff-body fw-bold text-primary-600">
+        Log in here!
+      </Link>
     </div>
   );
 }

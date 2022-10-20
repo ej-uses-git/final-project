@@ -39,7 +39,6 @@ function User(props) {
       if (!data) return navigate("/error/not logged in");
       writeToCache("userInfo", data);
       setInfo(data);
-      //TODO: use history library to make back arrow functional
     })();
   }, [userId, storedUser]);
 

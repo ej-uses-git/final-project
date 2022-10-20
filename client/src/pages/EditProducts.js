@@ -32,7 +32,7 @@ function EditProducts(props) {
   }, []);
 
   return (
-    <div>
+    <div className="edit-products">
       <select className="filter" value={selector} onChange={handleChange}>
         <option value={0}>Laptops</option>
         <option value={1}>Sports</option>

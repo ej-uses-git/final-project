@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { uploadFile } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
@@ -33,21 +33,35 @@ function UploadItemPhotos(props) {
   }, []);
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="file-input">Select Image:</label>
+    <>
+      <form className="flex-col" onSubmit={handleSubmit}>
+        <div className="flex-col">
+          <label
+            className="fs-400 fw-bold ff-headings text-primary-600"
+            htmlFor="file-input"
+          >
+            Select Image:
+          </label>
           <input
             type="file"
             name="fileInput"
             id="file-input"
             ref={fileInput}
             accept=".jpg, .jpeg"
+            className="fs-200 fw-regular ff-body text-primary-800"
           />
         </div>
-        <button type="submit">Upload</button>
+        <button className="button" type="submit">
+          Upload
+        </button>
       </form>
-    </div>
+
+      <div className="no-dec">
+        <Link to="../">
+          <button className="back-button button">Back to Product</button>
+        </Link>
+      </div>
+    </>
   );
 }
 

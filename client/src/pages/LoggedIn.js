@@ -34,7 +34,6 @@ function LoggedIn(props) {
       writeToCache("userInfo", data);
       if (data.permission === "admin") return navigate(`admin/${data.user_id}`);
       return navigate(`${data.user_id}`);
-      //TODO: use history library to make back arrow functional
     })();
   }, []);
 

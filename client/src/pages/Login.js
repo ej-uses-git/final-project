@@ -23,11 +23,16 @@ function Login(props) {
   }, []);
 
   return (
-    <div>
-      Log In
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Enter your username:</label>
+    <div className="login-page flex-col">
+      <h2 className="ff-headings fs-600 fw-bold text-primary-600">Log In</h2>
+      <form className="login-form | def-form flex-col" onSubmit={handleSubmit}>
+        <div className="container">
+          <label
+            className="ff-headings fs-400 fw-bold text-primary-600"
+            htmlFor="username"
+          >
+            Enter your username:
+          </label>
           <input
             required
             type="text"
@@ -37,8 +42,13 @@ function Login(props) {
           />
         </div>
 
-        <div>
-          <label htmlFor="password">Enter your password:</label>
+        <div className="container">
+          <label
+            className="ff-headings fs-400 fw-bold text-primary-600"
+            htmlFor="password"
+          >
+            Enter your password:
+          </label>
           <input
             required
             type="password"
@@ -48,9 +58,9 @@ function Login(props) {
           />
         </div>
 
-        <button type="submit">Log In</button>
+        <button className="button" type="submit">Log In</button>
       </form>
-      <Link to="/register">Sign Up Here</Link>
+      <Link to="/register" className="fs-200 ff-body fw-bold text-primary-600">Sign Up Here</Link>
     </div>
   );
 }

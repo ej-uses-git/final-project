@@ -84,11 +84,18 @@ function Payments(props) {
   }, [cachedPayments]);
 
   return (
-    <>
+    <div className="def-form flex-col">
       {payments.map((payment, i) => (
-        <div key={payment.payment_info_id}>
-          Payment: {"************" + payment.credit_number.slice(-4)}{" "}
-          {!!payment.active && "Active"}
+        <div
+          className="container container--small"
+          key={payment.payment_info_id}
+        >
+          <h4 className="fs-400 ff-headings fw-bold text-primary-600">
+            Payment:
+          </h4>{" "}
+          <p className="fs-200 ff-headings fw-regular text-primary-600">
+            {"************" + payment.credit_number.slice(-4)}
+          </p>{" "}
           <input
             type="checkbox"
             name="active"
@@ -105,15 +112,22 @@ function Payments(props) {
         </div>
       ))}
 
-      <button onClick={saveChanges}>Save Changes</button>
+      <button className="new-product-button button" onClick={saveChanges}>
+        Save Changes
+      </button>
 
-      <button onClick={() => setAdding(prev => !prev)}>
+      <button className="button" onClick={() => setAdding(prev => !prev)}>
         {adding ? "Cancel" : "Add"} New Payment
       </button>
       {adding && (
-        <form onSubmit={handleNewPayment}>
-          <div>
-            <label htmlFor="credit-card">Enter your credit card number:</label>
+        <form className="def-form flex-col" onSubmit={handleNewPayment}>
+          <div className="container">
+            <label
+              className="ff-headings fs-200 fw-bold text-primary-600"
+              htmlFor="credit-card"
+            >
+              Enter your credit card number:
+            </label>
             <input
               required
               type="text"
@@ -125,8 +139,13 @@ function Payments(props) {
             />
           </div>
 
-          <div>
-            <label htmlFor="exp-date">Enter the expiry date:</label>
+          <div className="container">
+            <label
+              className="ff-headings fs-200 fw-bold text-primary-600"
+              htmlFor="exp-date"
+            >
+              Enter the expiry date:
+            </label>
             <input
               required
               type="month"
@@ -136,8 +155,13 @@ function Payments(props) {
             />
           </div>
 
-          <div>
-            <label htmlFor="c-v-v">Enter the three digits on the back:</label>
+          <div className="container">
+            <label
+              className="ff-headings fs-200 fw-bold text-primary-600"
+              htmlFor="c-v-v"
+            >
+              Enter the CVV:
+            </label>
             <input
               required
               type="text"
@@ -149,10 +173,12 @@ function Payments(props) {
             />
           </div>
 
-          <button type="submit">ADD</button>
+          <button className="button" type="submit">
+            ADD
+          </button>
         </form>
       )}
-    </>
+    </div>
   );
 }
 

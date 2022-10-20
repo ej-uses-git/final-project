@@ -51,33 +51,50 @@ function EditItems(props) {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="file-input">Select Image:</label>
+      <form className="upload-form flex-col" onSubmit={handleSubmit}>
+        <div className="flex-col">
+          <label
+            className="fs-400 fw-bold ff-headings text-primary-600"
+            htmlFor="file-input"
+          >
+            Select Image:
+          </label>
           <input
             type="file"
             name="fileInput"
             id="file-input"
             ref={fileInput}
             accept=".jpg, .jpeg"
+            className="fs-200 fw-regular ff-body text-primary-800"
           />
         </div>
-        <button type="submit">Upload</button>
+        <button className="button" type="submit">
+          Upload
+        </button>
       </form>
 
-      {display.map(item => (
-        <Link to={`${item.item_id}/upload`} key={item.item_id}>
-          <Item itemId={item.item_id} color={item.item_color} cost={item.cost} />
+      <div className="items">
+        {display.map(item => (
+          <div className="no-dec" key={item.item_id}>
+            <Link to={`${item.item_id}/upload`}>
+              <Item
+                itemId={item.item_id}
+                color={item.item_color}
+                cost={item.cost}
+              />
+            </Link>
+          </div>
+        ))}
+      </div>
+
+      <div className="no-dec">
+        <Link to="new">
+          <button className="new-product-button button">Add New Item</button>
         </Link>
-      ))}
-
-      <Link to="new">
-        <button>Add New Item</button>
-      </Link>
-
-      <Link to="../edit">
-        <button>Back To Products</button>
-      </Link>
+        <Link to="../edit">
+          <button className="back-button button">Back To Products</button>
+        </Link>
+      </div>
     </>
   );
 }
