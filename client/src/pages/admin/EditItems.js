@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Item from "../../components/Item";
-import { getReq, uploadFile } from "../../utilities/fetchUtils";
+import { getReq, putReq, uploadFile } from "../../utilities/fetchUtils";
 import useError from "../../utilities/useError";
 
 function EditItems(props) {
@@ -13,7 +13,26 @@ function EditItems(props) {
 
   const fileInput = useRef();
 
+  const productName = useRef();
+  const productDescription = useRef();
+  const cost = useRef();
+
   const [display, setDisplay] = useState([]);
+
+  const handleEdit = useCallback(async e => {
+    e.preventDefault();
+
+    const [data, error] = await putReq(`/products/${productId}`, {
+      productName: productName.current.value,
+      description: productDescription.current.value,
+      cost: cost.current.value
+    });
+
+    if (error) useError(error, navigate);
+    if (!data) useError(new Error("something went wrong"), navigate);
+
+    e.target.reset();
+  }, []);
 
   useEffect(() => {
     const cachedItems = localCache.current;
@@ -86,8 +105,62 @@ function EditItems(props) {
             </Link>
           </div>
         ))}
-      </div>
 
+        <form className="edit-form def-form flex-col" onSubmit={handleEdit}>
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="product-name"
+            >
+              Enter new product name:
+            </label>
+            <input
+              required
+              type="text"
+              name="productName"
+              id="product-name"
+              ref={productName}
+              className="fs-200 fw-regular ff-body text-primary-800"
+            />
+          </div>
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="product-description"
+            >
+              Enter new product description:
+            </label>
+            <textarea
+              type="text"
+              name="productDescription"
+              id="product-description"
+              ref={productDescription}
+              className="fs-200 fw-regular ff-body text-primary-800"
+            ></textarea>
+          </div>
+
+          <div className="container">
+            <label
+              className="ff-headings fs-400 fw-bold text-primary-600"
+              htmlFor="cost"
+            >
+              Enter the product's cost:
+            </label>
+            <input
+              required
+              type="number"
+              name="cost"
+              id="cost"
+              step="any"
+              ref={cost}
+            />
+          </div>
+
+          <button type="submit" className="button">
+            EDIT
+          </button>
+        </form>
+      </div>
       <div className="no-dec">
         <Link to="new">
           <button className="new-product-button button">Add New Item</button>

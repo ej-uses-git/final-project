@@ -54,21 +54,27 @@ router.post("/", async function (req, res, next) {
   }
 });
 
-/* POST new product. */
+// PUT Edit Product
 router.put("/:productId", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
-  const updateProduct =
-    `UPDATE product SET product_name = "${req.body.productName}", description = "${req.body.description}", type_id = ${req.body.typeId}, cost = ${req.body.cost}, brand = "${req.body.brand}" ` +
-    `WHERE product_id = ${req.params.productId}`;
-  const selectProduct = `SELECT * FROM product WHERE product_id = ${req.params.productId}`;
   try {
     await connect();
-    await query(updateProduct);
-    let product = await query(selectProduct);
+    await query(
+      `UPDATE product 
+      SET product_name = "${safelyEscape(req.body.productName)}", 
+        description = "${safelyEscape(req.body.description)}",
+        cost = ${req.body.cost}
+      WHERE product_id = ${req.params.productId}`
+    );
+    let product = await query(
+      `SELECT * 
+      FROM product 
+      WHERE product_id = ${req.params.productId}`
+    );
     product = product[0];
-    if (!product) return res.send("product do not exist");
+    if (!product) return res.json(false);
     await end();
-    return res.json();
+    return res.json(true);
   } catch (error) {
     if (!error.fatal) await end();
     console.log(error);
