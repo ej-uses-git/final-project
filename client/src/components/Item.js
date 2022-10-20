@@ -43,7 +43,7 @@ function Item(props) {
       </p>
 
       <p className="ff-body fw-regular fs-200 text-primary-800">
-        {props?.item_amount === 0 && "Out of stock"}
+        {props?.itemAmount === 0 && "Out of stock"}
       </p>
 
       {props.addToCart && (
