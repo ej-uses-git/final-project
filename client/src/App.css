@@ -85,6 +85,11 @@ input[type="email"] {
   font-size: var(--fs-200);
 }
 
+input[type="file"] {
+  background-color: var(--clr-accent-500);
+  border-radius: 1rem;
+}
+
 /** general styling */
 body {
   background-color: hsl(26, 40%, 92%);
