@@ -91,7 +91,7 @@ function Payments(props) {
           key={payment.payment_info_id}
         >
           <h4 className="fs-400 ff-headings fw-bold text-primary-600">
-            Payment:
+            Method {i + 1}:
           </h4>{" "}
           <p className="fs-200 ff-headings fw-regular text-primary-600">
             {"************" + payment.credit_number.slice(-4)}

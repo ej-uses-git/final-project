@@ -82,6 +82,7 @@ function ProductDetails(props) {
             color={item.item_color}
             cost={item.cost}
             addToCart={amount => addToCart(item.item_id, amount)}
+            productName={item.product_name}
             itemAmount={item.item_amount}
           />
         ) : (

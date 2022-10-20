@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getReq } from "../utilities/fetchUtils";
 import useError from "../utilities/useError";
 
@@ -9,7 +9,7 @@ function Item(props) {
 
   const amountInput = useRef();
 
-  const { productName } = useParams();
+  const { productName } = props;
 
   const [photoLinks, setPhotoLinks] = useState([]);
 
@@ -30,11 +30,17 @@ function Item(props) {
           alt={productName + " " + props.color}
           key={props.itemId}
           className="order-item-image | fs-200 fw-regular ff-body text-primary-800"
-          />
+        />
       ))}
-      <h4 className="ff-headings fw-bold fs-400 text-neutral-100">{productName}</h4>
-      <h5 className="ff-body fw-bold fs-200 text-primary-800">{props.color.toUpperCase()}</h5>
-      <p className="ff-body fw-regular fs-200 text-primary-800">${props.cost.toFixed(2)}</p>
+      <h4 className="ff-headings fw-bold fs-400 text-neutral-100">
+        {productName}
+      </h4>
+      <h5 className="ff-body fw-bold fs-200 text-primary-800">
+        {props.color.toUpperCase()}
+      </h5>
+      <p className="ff-body fw-regular fs-200 text-primary-800">
+        ${props.cost.toFixed(2)}
+      </p>
 
       {props.addToCart && (
         <form
@@ -54,7 +60,9 @@ function Item(props) {
             min={1}
             max={props.itemAmount}
           />
-          <button className="button button--small" type="submit">Add To Cart</button>
+          <button className="button button--small" type="submit">
+            Add To Cart
+          </button>
         </form>
       )}
     </div>

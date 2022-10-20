@@ -77,7 +77,9 @@ textarea {
   height: 10rem;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
   padding: 0.275rem;
   font-family: var(--ff-body);
   font-size: var(--fs-200);

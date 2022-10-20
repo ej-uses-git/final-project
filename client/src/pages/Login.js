@@ -13,10 +13,16 @@ function Login(props) {
     e.preventDefault();
     const [data, error] = await usermanageReq("/login", {
       username: username.current.value,
-      password: password.current.value //TODO: encrypt
+      password: password.current.value
     });
     if (error) return useError(error, navigate);
-    if (!data) return alert("False info."); //TODO: use form validation
+    if (!data) {
+      username.current.setCustomValidity("False info.");
+      setTimeout(() => {
+        e.target.requestSubmit();
+      }, 1);
+      return;
+    }
     const userId = data;
     localStorage.setItem("currentUser", userId);
     return navigate(`/users`);
@@ -35,6 +41,7 @@ function Login(props) {
           </label>
           <input
             required
+            onChange={() => username.current.setCustomValidity("")}
             type="text"
             name="username"
             id="username"
@@ -51,6 +58,7 @@ function Login(props) {
           </label>
           <input
             required
+            onChange={() => username.current.setCustomValidity("")}
             type="password"
             name="password"
             id="password"
@@ -58,9 +66,13 @@ function Login(props) {
           />
         </div>
 
-        <button className="button" type="submit">Log In</button>
+        <button className="button" type="submit">
+          Log In
+        </button>
       </form>
-      <Link to="/register" className="fs-200 ff-body fw-bold text-primary-600">Sign Up Here</Link>
+      <Link to="/register" className="fs-200 ff-body fw-bold text-primary-600">
+        Sign Up Here
+      </Link>
     </div>
   );
 }

@@ -81,6 +81,7 @@ function EditItems(props) {
                 itemId={item.item_id}
                 color={item.item_color}
                 cost={item.cost}
+                productName={item.product_name}
               />
             </Link>
           </div>

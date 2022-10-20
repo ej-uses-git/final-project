@@ -31,8 +31,13 @@ function Register(props) {
 
   const handlePageOne = useCallback(e => {
     e.preventDefault();
-    if (passwordA.current.value !== passwordB.current.value)
-      return alert("Please ensure the passwords match."); //TODO: use form validation
+    if (passwordA.current.value !== passwordB.current.value) {
+      passwordA.current.setCustomValidity("Please ensure the passwords match.");
+      setTimeout(() => {
+        e.target.requestSubmit();
+      }, 1);
+      return;
+    }
     firstPageValues.current = {
       username: username.current.value,
       passwordA: passwordA.current.value,
@@ -54,10 +59,15 @@ function Register(props) {
       email: email.current.value
     });
     if (error) return useError(error, navigate);
-    if (!data)
-      return alert(
+    if (!data) {
+      email.current.setCustomValidity(
         "Information already taken. Try changing your username or email."
-      ); //TODO: use form validation
+      );
+      setTimeout(() => {
+        e.target.requestSubmit();
+      }, 1);
+      return;
+    }
 
     [data, error] = await usermanageReq("/register", {
       username: firstPageValues.current.username,
@@ -128,6 +138,9 @@ function Register(props) {
             </label>
             <input
               required
+              onChange={() => {
+                passwordA.current.setCustomValidity("");
+              }}
               type="password"
               name="passwordA"
               id="password-a"
@@ -144,6 +157,9 @@ function Register(props) {
             </label>
             <input
               required
+              onChange={() => {
+                passwordA.current.setCustomValidity("");
+              }}
               type="password"
               name="passwordB"
               id="password-b"
@@ -168,7 +184,14 @@ function Register(props) {
             >
               Enter your email:
             </label>
-            <input required type="email" name="email" id="email" ref={email} />
+            <input
+              required
+              onChange={() => email.current.setCustomValidity("")}
+              type="email"
+              name="email"
+              id="email"
+              ref={email}
+            />
           </div>
 
           <div className="container">
