@@ -42,6 +42,10 @@ function Item(props) {
         ${props.cost.toFixed(2)}
       </p>
 
+      <p className="ff-body fw-regular fs-200 text-primary-800">
+        {props?.item_amount === 0 && "Out of stock"}
+      </p>
+
       {props.addToCart && (
         <form
           onSubmit={e => {
