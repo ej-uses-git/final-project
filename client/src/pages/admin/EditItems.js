@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Item from "../../components/Item";
 import { getReq, putReq, uploadFile } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function EditItems(props) {
   const navigate = useNavigate();
@@ -19,17 +19,17 @@ function EditItems(props) {
 
   const [display, setDisplay] = useState([]);
 
-  const handleEdit = useCallback(async e => {
+  const handleEdit = useCallback(async (e) => {
     e.preventDefault();
 
     const [data, error] = await putReq(`/products/${productId}`, {
       productName: productName.current.value,
       description: productDescription.current.value,
-      cost: cost.current.value
+      cost: cost.current.value,
     });
 
-    if (error) useError(error, navigate);
-    if (!data) useError(new Error("something went wrong"), navigate);
+    if (error) handleError(error, navigate);
+    if (!data) handleError(new Error("something went wrong"), navigate);
 
     e.target.reset();
   }, []);
@@ -40,14 +40,14 @@ function EditItems(props) {
 
     (async () => {
       const [data, error] = await getReq(`/products/${productId}/items`);
-      if (error) return useError(error, navigate);
+      if (error) return handleError(error, navigate);
       setDisplay(data);
       localCache.current = data;
       console.log("\n== data ==\n", data, "\n");
     })();
   }, []);
 
-  const handleSubmit = useCallback(async e => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     try {
       const files = fileInput.current.files;
@@ -65,7 +65,7 @@ function EditItems(props) {
       if (error) throw error;
       alert("Upload succeeded!");
     } catch (error) {
-      useError(error, navigate);
+      handleError(error, navigate);
     }
   }, []);
 
@@ -94,7 +94,7 @@ function EditItems(props) {
       </form>
 
       <div className="items">
-        {display.map(item => (
+        {display.map((item) => (
           <div className="no-dec" key={item.item_id}>
             <Link to={`${item.item_id}/upload`}>
               <Item

@@ -4,7 +4,7 @@ import AdminNavbar from "../../components/AdminNavbar";
 import CustomerNavbar from "../../components/CustomerNavbar";
 import { CacheContext } from "../../App";
 import { getReq } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function User(props) {
   const navigate = useNavigate();
@@ -13,20 +13,22 @@ function User(props) {
 
   const { userId } = useParams();
 
-  const { clearCache, retrieveFromCache, writeToCache } = useContext(
-    CacheContext
-  );
+  const { clearCache, retrieveFromCache, writeToCache } =
+    useContext(CacheContext);
 
   const storedUser = localStorage.getItem("currentUser");
   const [info, setInfo] = useState(retrieveFromCache("userInfo"));
 
-  const getFromServer = useCallback(async (item, path) => {
-    const cachedArray = retrieveFromCache(item);
-    if (cachedArray.length) return;
-    const [data, error] = await getReq(path);
-    if (error) return useError(error, navigate);
-    writeToCache(item, data);
-  }, []);
+  const getFromServer = useCallback(
+    async (item, path) => {
+      const cachedArray = retrieveFromCache(item);
+      if (cachedArray.length) return;
+      const [data, error] = await getReq(path);
+      if (error) return handleError(error, navigate);
+      writeToCache(item, data);
+    },
+    [navigate, retrieveFromCache, writeToCache]
+  );
 
   useEffect(() => {
     if (!storedUser || storedUser !== userId)
@@ -40,7 +42,7 @@ function User(props) {
       writeToCache("userInfo", data);
       setInfo(data);
     })();
-  }, [userId, storedUser]);
+  }, [navigate, retrieveFromCache, writeToCache, userId, storedUser]);
 
   useEffect(() => {
     const { permission, order_id } = info;
@@ -63,7 +65,7 @@ function User(props) {
         );
       })();
     }
-  }, [info]);
+  }, [info, getFromServer, storedUser]);
 
   return (
     <div className="user-page">

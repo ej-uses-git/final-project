@@ -1,3 +1,3 @@
-export default function useError(error, navigate) {
+export default function handleError(error, navigate) {
   navigate(`/error/${error.message.toLowerCase()}`);
 }

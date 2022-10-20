@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { postReq } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function NewItem(props) {
   const navigate = useNavigate();
@@ -11,16 +11,19 @@ function NewItem(props) {
   const color = useRef();
   const amount = useRef();
 
-  const handleSubmit = useCallback(async e => {
-    e.preventDefault();
-    const [, error] = await postReq(`/products/${productId}`, {
-      color: color.current.value,
-      amount: amount.current.value
-    });
-    if (error) return useError(error, navigate);
-    alert("Creation succesful!");
-    e.target.reset();
-  }, []);
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const [, error] = await postReq(`/products/${productId}`, {
+        color: color.current.value,
+        amount: amount.current.value,
+      });
+      if (error) return handleError(error, navigate);
+      alert("Creation succesful!");
+      e.target.reset();
+    },
+    [navigate, productId]
+  );
 
   return (
     <>

@@ -3,12 +3,12 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CacheContext } from "../../App";
 import { postReq, putReq } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function Payments(props) {
   const navigate = useNavigate();
@@ -29,53 +29,56 @@ function Payments(props) {
 
   const cachedPayments = retrieveFromCache("paymentMethods");
 
-  const handleNewPayment = useCallback(async e => {
-    e.preventDefault();
-    const [data, error] = await postReq(`/users/${userId}/pay`, {
-      creditNum: creditCard.current.value,
-      cvv: cvv.current.value,
-      expDate: expDate.current.value + "-00"
-    });
-    if (error) return useError(error, navigate);
-    const newPayment = {
-      credit_number: creditCard.current.value,
-      cvv: cvv.current.value,
-      expDate: expDate.current.value + "-00",
-      user_id: userId,
-      active: true,
-      payment_info_id: data
-    };
-    setPayments(prev => {
-      let copy = [...prev].map(item => ({ ...item, active: 0 }));
-      copy = [...copy, newPayment];
-      return copy;
-    });
-    submitted.current = true;
-    e.target.reset();
-    setAdding(false);
-  }, []);
+  const handleNewPayment = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const [data, error] = await postReq(`/users/${userId}/pay`, {
+        creditNum: creditCard.current.value,
+        cvv: cvv.current.value,
+        expDate: expDate.current.value + "-00",
+      });
+      if (error) return handleError(error, navigate);
+      const newPayment = {
+        credit_number: creditCard.current.value,
+        cvv: cvv.current.value,
+        expDate: expDate.current.value + "-00",
+        user_id: userId,
+        active: true,
+        payment_info_id: data,
+      };
+      setPayments((prev) => {
+        let copy = [...prev].map((item) => ({ ...item, active: 0 }));
+        copy = [...copy, newPayment];
+        return copy;
+      });
+      submitted.current = true;
+      e.target.reset();
+      setAdding(false);
+    },
+    [navigate, userId]
+  );
 
   const saveChanges = useCallback(async () => {
-    const activeIndex = payments.findIndex(item => !!item.active);
+    const activeIndex = payments.findIndex((item) => !!item.active);
     if (
       activeIndex ===
-        originalPayments.current.findIndex(item => !!item.active) ||
+        originalPayments.current.findIndex((item) => !!item.active) ||
       activeIndex < 0
     )
       return;
 
     const [, error] = await putReq(`/users/${userId}/activepay`, {
-      id: payments[activeIndex].payment_info_id
+      id: payments[activeIndex].payment_info_id,
     });
-    if (error) return useError(error, navigate);
-  }, [payments]);
+    if (error) return handleError(error, navigate);
+  }, [navigate, payments, userId]);
 
   useEffect(() => {
     if (!submitted.current) return;
     originalPayments.current = payments;
     writeToCache("paymentMethods", payments);
     submitted.current = false;
-  }, [payments]);
+  }, [payments, writeToCache]);
 
   useEffect(() => {
     if (!cachedPayments.length) return;
@@ -101,8 +104,8 @@ function Payments(props) {
             name="active"
             id="active"
             onChange={() => {
-              setPayments(prev => {
-                let copy = [...prev].map(item => ({ ...item, active: 0 }));
+              setPayments((prev) => {
+                let copy = [...prev].map((item) => ({ ...item, active: 0 }));
                 copy[i].active = 1;
                 return copy;
               });
@@ -116,7 +119,7 @@ function Payments(props) {
         Save Changes
       </button>
 
-      <button className="button" onClick={() => setAdding(prev => !prev)}>
+      <button className="button" onClick={() => setAdding((prev) => !prev)}>
         {adding ? "Cancel" : "Add"} New Payment
       </button>
       {adding && (

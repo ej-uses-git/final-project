@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { uploadFile } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function UploadItemPhotos(props) {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ function UploadItemPhotos(props) {
 
   const fileInput = useRef();
 
-  const handleSubmit = useCallback(async e => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     try {
       const files = fileInput.current.files;
@@ -28,7 +28,7 @@ function UploadItemPhotos(props) {
       if (error) throw error;
       alert("Upload succeeded!");
     } catch (error) {
-      useError(error, navigate);
+      handleError(error, navigate);
     }
   }, []);
 

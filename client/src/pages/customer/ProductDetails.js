@@ -3,13 +3,13 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Item from "../../components/Item";
 import { CacheContext } from "../../App";
 import { getReq, postReq } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function ProductDetails(props) {
   const navigate = useNavigate();
@@ -27,22 +27,22 @@ function ProductDetails(props) {
       const { order_id } = retrieveFromCache("userInfo");
       const [data, error] = await postReq(`/orders/${order_id}/items`, {
         itemId,
-        amount
+        amount,
       });
-      if (error) return useError(error, navigate);
+      if (error) return handleError(error, navigate);
       if (!data) return alert("Not enough items in stock.");
       const cachedCart = retrieveFromCache("userCart");
       if (data.amount) {
         const copy = [...cachedCart];
-        const changedIndex = copy.findIndex(item => item.item_id === itemId);
+        const changedIndex = copy.findIndex((item) => item.item_id === itemId);
         const oldAmount = copy[changedIndex].amount;
         copy[changedIndex] = {
           ...copy[changedIndex],
-          amount: oldAmount + parseFloat(data.amount)
+          amount: oldAmount + parseFloat(data.amount),
         };
         return writeToCache("userCart", copy);
       }
-      const itemData = display.find(item => item.item_id === itemId);
+      const itemData = display.find((item) => item.item_id === itemId);
       writeToCache("userCart", [
         ...cachedCart,
         {
@@ -53,11 +53,11 @@ function ProductDetails(props) {
           item_amount: itemData.item_amount,
           product_id: productId,
           cost: itemData.cost,
-          photos: itemData.photos
-        }
+          photos: itemData.photos,
+        },
       ]);
     },
-    [display, retrieveFromCache]
+    [display, navigate, productId, productName, retrieveFromCache, writeToCache]
   );
 
   useEffect(() => {
@@ -66,22 +66,22 @@ function ProductDetails(props) {
 
     (async () => {
       const [data, error] = await getReq(`/products/${productId}/items`);
-      if (error) return useError(error, navigate);
+      if (error) return handleError(error, navigate);
       setDisplay(data);
       localCache.current = data;
     })();
-  }, []);
+  }, [navigate, productId]);
 
   return (
     <div className="product-details">
-      {display.map(item =>
+      {display.map((item) =>
         item.item_amount ? (
           <Item
             key={item.item_id}
             itemId={item.item_id}
             color={item.item_color}
             cost={item.cost}
-            addToCart={amount => addToCart(item.item_id, amount)}
+            addToCart={(amount) => addToCart(item.item_id, amount)}
             productName={item.product_name}
             itemAmount={item.item_amount}
           />

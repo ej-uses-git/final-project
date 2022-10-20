@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Product from "../../components/Product";
 import { getReq, uploadFile } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function EditProducts(props) {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ function EditProducts(props) {
   const [selector, setSelector] = useState(0);
   const [display, setDisplay] = useState([]);
 
-  const handleChange = useCallback(async e => {
+  const handleChange = useCallback(async (e) => {
     setSelector(e.target.value);
 
     const cachedProducts = localCache.current[e.target.value];
@@ -22,7 +22,7 @@ function EditProducts(props) {
     const [data, error] = await getReq(
       `/types/${parseInt(e.target.value) + 1}/products`
     );
-    if (error) return useError(error, navigate);
+    if (error) return handleError(error, navigate);
     setDisplay(data);
     localCache.current[e.target.value] = data;
   }, []);
@@ -39,7 +39,7 @@ function EditProducts(props) {
         <option value={2}>Video Games</option>
       </select>
 
-      {display.map(product => (
+      {display.map((product) => (
         <Product
           key={product.product_id}
           path={`../${product.product_name}/${product.product_id}`}

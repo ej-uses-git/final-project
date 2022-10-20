@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Product from "../../components/Product";
 import { getReq } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function Shop(props) {
   const navigate = useNavigate();
@@ -12,24 +12,27 @@ function Shop(props) {
   const [selector, setSelector] = useState(0);
   const [display, setDisplay] = useState([]);
 
-  const handleChange = useCallback(async e => {
-    setSelector(e.target.value);
+  const handleChange = useCallback(
+    async (e) => {
+      setSelector(e.target.value);
 
-    const cachedProducts = localCache.current[e.target.value];
+      const cachedProducts = localCache.current[e.target.value];
 
-    if (cachedProducts.length) return setDisplay(cachedProducts);
+      if (cachedProducts.length) return setDisplay(cachedProducts);
 
-    const [data, error] = await getReq(
-      `/types/${parseInt(e.target.value) + 1}/products`
-    );
-    if (error) return useError(error, navigate);
-    setDisplay(data);
-    localCache.current[e.target.value] = data;
-  }, []);
+      const [data, error] = await getReq(
+        `/types/${parseInt(e.target.value) + 1}/products`
+      );
+      if (error) return handleError(error, navigate);
+      setDisplay(data);
+      localCache.current[e.target.value] = data;
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     handleChange({ target: { value: 0 } });
-  }, []);
+  }, [handleChange]);
 
   return (
     <div className="shop">
@@ -39,7 +42,7 @@ function Shop(props) {
         <option value={2}>Video Games</option>
       </select>
 
-      {display.map(product => (
+      {display.map((product) => (
         <Product
           key={product.product_id}
           path={`products/${product.product_name}/${product.product_id}`}

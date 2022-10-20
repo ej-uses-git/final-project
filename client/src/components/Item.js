@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import handleError from "../utilities/handleError";
 
 function Item(props) {
   //TODO: use item.product_name and not from params
@@ -17,7 +17,7 @@ function Item(props) {
     if (photoLinks.length) return;
     (async () => {
       const [data, error] = await getReq(`/items/${props.itemId}/photos`);
-      if (error) return useError(error, navigate);
+      if (error) return handleError(error, navigate);
       if (!data) return;
       setPhotoLinks(data);
     })();
@@ -25,7 +25,7 @@ function Item(props) {
 
   return (
     <div className="item">
-      {photoLinks.map(link => (
+      {photoLinks.map((link) => (
         <img
           src={`http://localhost:8090/images/items/${productName}/${props.itemId}/${link}`}
           alt={productName + " " + props.color}
@@ -49,7 +49,7 @@ function Item(props) {
 
       {props.addToCart && (
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             props.addToCart(amountInput.current.value);
             e.target.reset();

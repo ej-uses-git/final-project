@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getReq } from "../utilities/fetchUtils";
-import useError from "../utilities/useError";
+import handleError from "../utilities/handleError";
 
 function OrderItem(props) {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ function OrderItem(props) {
   useEffect(() => {
     (async () => {
       const [data, error] = await getReq(`/items/${item.item_id}/photos`);
-      if (error) return useError(error, navigate);
+      if (error) return handleError(error, navigate);
       if (!data) return;
       setPhotoLink(data[0]);
     })();

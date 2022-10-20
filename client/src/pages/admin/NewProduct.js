@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { postReq } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function NewProduct(props) {
   const navigate = useNavigate();
@@ -13,20 +13,20 @@ function NewProduct(props) {
   const cost = useRef();
   const brand = useRef();
 
-  const handleChange = useCallback(e => {
+  const handleChange = useCallback((e) => {
     setType(e.target.value);
   }, []);
 
-  const handleSubmit = useCallback(async e => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     const [, error] = await postReq(`/products`, {
       productName: productName.current.value,
       description: description.current.value,
       typeId: type,
       cost: cost.current.value,
-      brand: brand.current.value
+      brand: brand.current.value,
     });
-    if (error) return useError(error, navigate);
+    if (error) return handleError(error, navigate);
     alert("Creation succesful!");
     e.target.reset();
   }, []);

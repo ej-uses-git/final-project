@@ -3,12 +3,12 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CacheContext } from "../../App";
 import { postReq, usermanageReq } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 import { encryptPassword } from "../../utilities/encrypt";
 
 // /register
@@ -29,7 +29,7 @@ function Register(props) {
   const phoneNum = useRef();
   const address = useRef();
 
-  const handlePageOne = useCallback(e => {
+  const handlePageOne = useCallback((e) => {
     e.preventDefault();
     if (passwordA.current.value !== passwordB.current.value) {
       passwordA.current.setCustomValidity("Please ensure the passwords match.");
@@ -41,7 +41,7 @@ function Register(props) {
     firstPageValues.current = {
       username: username.current.value,
       passwordA: passwordA.current.value,
-      passwordB: passwordB.current.value
+      passwordB: passwordB.current.value,
     };
     setPage(2);
   }, []);
@@ -50,15 +50,15 @@ function Register(props) {
     setPage(1);
   });
 
-  const handlePageTwo = useCallback(async e => {
+  const handlePageTwo = useCallback(async (e) => {
     e.preventDefault();
     let data, error;
 
     [data, error] = await usermanageReq("/register/check", {
       username: firstPageValues.current.username,
-      email: email.current.value
+      email: email.current.value,
     });
-    if (error) return useError(error, navigate);
+    if (error) return handleError(error, navigate);
     if (!data) {
       email.current.setCustomValidity(
         "Information already taken. Try changing your username or email."
@@ -75,14 +75,14 @@ function Register(props) {
       email: email.current.value,
       phoneNumber: phoneNum.current.value,
       address: address.current.value,
-      permission: "customer"
+      permission: "customer",
     });
-    if (error) return useError(error, navigate);
+    if (error) return handleError(error, navigate);
     const userId = data;
     localStorage.setItem("currentUser", userId);
 
     [data, error] = await postReq(`/orders/neworder/${userId}`);
-    if (error) return useError(error, navigate);
+    if (error) return handleError(error, navigate);
     const cartId = data;
 
     writeToCache("userInfo", {
@@ -92,7 +92,7 @@ function Register(props) {
       address: address.current.value,
       phoneNum: phoneNum.current.value,
       permission: "customer",
-      cartId
+      cartId,
     });
     navigate("/users");
   }, []);

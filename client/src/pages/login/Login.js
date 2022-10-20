@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { usermanageReq } from "../../utilities/fetchUtils";
-import useError from "../../utilities/useError";
+import handleError from "../../utilities/handleError";
 
 function Login(props) {
   const navigate = useNavigate();
@@ -9,13 +9,13 @@ function Login(props) {
   const username = useRef();
   const password = useRef();
 
-  const handleSubmit = useCallback(async e => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     const [data, error] = await usermanageReq("/login", {
       username: username.current.value,
-      password: password.current.value
+      password: password.current.value,
     });
-    if (error) return useError(error, navigate);
+    if (error) return handleError(error, navigate);
     if (!data) {
       username.current.setCustomValidity("False info.");
       setTimeout(() => {
