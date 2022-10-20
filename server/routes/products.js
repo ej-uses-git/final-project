@@ -34,18 +34,29 @@ router.get("/:productId/items", async (req, res, next) => {
   }
 });
 
-/* POST new product. */
+// POST new product
 router.post("/", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
-  const createProduct =
-    `INSERT INTO product (product_name, description, type_id, cost, brand) ` +
-    `VALUES("${req.body.productName}", "${req.body.description}", ${req.body.typeId}, ${req.body.cost}, "${req.body.brand}")`;
-  const selectId = `SELECT LAST_INSERT_ID();`;
   try {
     await connect();
-    await query(createProduct);
-    const selectIdResult = await query(selectId);
+    await query(
+      `INSERT INTO product (product_name, description, type_id, cost, brand) 
+      VALUES("${req.body.productName}", "${req.body.description}", ${req.body.typeId}, ${req.body.cost}, "${req.body.brand}")`
+    );
+    const selectIdResult = await query(`SELECT LAST_INSERT_ID();`);
     const lastId = selectIdResult[0]["LAST_INSERT_ID()"];
+    if (!lastId) throw new Error("Something went wrong.");
+    const newPath = path.join(
+      __dirname,
+      "../public/images/items",
+      req.body.productName
+    );
+    try {
+      await fs.access(newPath);
+      return res.status(400).send("Something went wrong.");
+    } catch (error) {
+      await fs.mkdir(newPath);
+    }
     await end();
     return res.json(lastId);
   } catch (error) {
