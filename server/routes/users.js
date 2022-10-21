@@ -26,8 +26,9 @@ router.get("/:userId/info", async (req, res, next) => {
       LEFT JOIN \`order\` AS o
         USING (user_id)
       WHERE 
-        u.user_id = ${req.params.userId}
-        AND (o.status = 'cart' OR u.permission = 'admin')`
+        u.user_id = ?
+        AND (o.status = 'cart' OR u.permission = 'admin')`,
+      [req.params.userId]
     );
 
     await end();
@@ -59,8 +60,9 @@ router.get("/:userId/cart/:cartId", async (req, res, next) => {
         USING (item_id)
       JOIN product AS p
         USING (product_id)
-      WHERE o.order_id = ${req.params.cartId}
-      AND o.status = 'cart'`
+      WHERE o.order_id = ?
+      AND o.status = 'cart'`,
+      [req.params.cartId]
     );
     await end();
     res.json(result);
@@ -82,7 +84,8 @@ router.get("/:userId/purchase%20history", async (req, res, next) => {
       FROM purchase_history AS ph
       JOIN \`order\` AS o
         USING (order_id)
-      WHERE o.user_id = ${req.params.userId} `
+      WHERE o.user_id = ?`,
+      [req.params.userId]
     );
     await end();
     res.json(result);
@@ -101,7 +104,8 @@ router.get("/:userId/payment%20methods", async (req, res, next) => {
     result = await query(
       `SELECT *
       FROM payment_info
-      WHERE user_id = ${req.params.userId}`
+      WHERE user_id = ?`,
+      [req.params.userId]
     );
     await end();
     res.json(result);
@@ -116,15 +120,20 @@ router.get("/:userId/payment%20methods", async (req, res, next) => {
 // POST new payment info
 router.post("/:userId/pay", async (req, res, next) => {
   const { connect, query, end } = makeConnection();
-  const createPay =
-    `INSERT INTO payment_info (credit_number, cvv, expiration_date, user_id, active) ` +
-    `VALUES(${req.body.creditNum}, ${req.body.cvv}, '${req.body.expDate}', ${req.params.userId}, true);`;
-  const updateActive = `UPDATE payment_info SET active = false WHERE user_id = ${req.params.userId};`;
   const selectId = `SELECT LAST_INSERT_ID();`;
   try {
     await connect();
-    await query(updateActive);
-    await query(createPay);
+    await query(
+      `UPDATE payment_info 
+      SET active = false 
+      WHERE user_id = ?`,
+      [req.params.userId]
+    );
+    await query(
+      `INSERT INTO payment_info (credit_number, cvv, expiration_date, user_id, active) 
+      VALUES(?, ?, ?, ?, true)`,
+      [req.body.creditNum, req.body.cvv, req.body.expDate, req.params.userId]
+    );
     const selectIdResult = await query(selectId);
     await end();
     return res.json(selectIdResult[0]["LAST_INSERT_ID()"]);
@@ -145,12 +154,14 @@ router.put("/:userId/activepay", async (req, res, next) => {
     result = await query(
       `UPDATE payment_info 
       SET active = false
-      WHERE user_id = ${req.params.userId};`
+      WHERE user_id = ?`,
+      [req.params.userId]
     );
     if (result instanceof Error) throw result;
     result = await query(
       `UPDATE payment_info SET active = true
-      WHERE payment_info_id = ${req.body.id}`
+      WHERE payment_info_id = ?`,
+      [req.body.id]
     );
     if (result instanceof Error) throw result;
     await end();

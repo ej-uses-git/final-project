@@ -41,7 +41,14 @@ router.post("/", async function (req, res, next) {
     await connect();
     await query(
       `INSERT INTO product (product_name, description, type_id, cost, brand) 
-      VALUES("${req.body.productName}", "${req.body.description}", ${req.body.typeId}, ${req.body.cost}, "${req.body.brand}")`
+      VALUES(?, ?, ?, ?, ?)`,
+      [
+        req.body.productName,
+        req.body.description,
+        req.body.typeId,
+        req.body.cost,
+        req.body.brand,
+      ]
     );
     const selectIdResult = await query(`SELECT LAST_INSERT_ID();`);
     const lastId = selectIdResult[0]["LAST_INSERT_ID()"];
@@ -73,15 +80,22 @@ router.put("/:productId", async function (req, res, next) {
     await connect();
     await query(
       `UPDATE product 
-      SET product_name = "${safelyEscape(req.body.productName)}", 
-        description = "${safelyEscape(req.body.description)}",
-        cost = ${req.body.cost}
-      WHERE product_id = ${req.params.productId}`
+      SET product_name = ?, 
+        description = ?,
+        cost = ?
+      WHERE product_id = ?`,
+      [
+        req.body.productName,
+        req.body.description,
+        req.body.cost,
+        req.params.productId,
+      ]
     );
     let product = await query(
       `SELECT * 
       FROM product 
-      WHERE product_id = ${req.params.productId}`
+      WHERE product_id = ?`,
+      [req.params.productId]
     );
     product = product[0];
     if (!product) return res.json(false);
@@ -97,19 +111,26 @@ router.put("/:productId", async function (req, res, next) {
 /* POST new item */
 router.post("/:productId", async function (req, res, next) {
   const { connect, query, end } = makeConnection();
-  const createItem =
-    `INSERT INTO item (item_color, item_amount, product_id) ` +
-    `VALUES("${req.body.color}", ${req.body.amount}, ${req.params.productId})`;
   try {
     await connect();
-    await query(createItem);
+    await query(
+      `INSERT INTO item (item_color, item_amount, product_id) 
+      // VALUES(?, ?, ?)`,
+      [req.body.color, req.body.amount, req.params.productId]
+    );
     const selectIdResult = await query(`SELECT LAST_INSERT_ID();`);
     const lastId = selectIdResult[0]["LAST_INSERT_ID()"];
     const productName = await query(
-      `SELECT product_name FROM product WHERE product_id = ${req.params.productId}`
+      `SELECT product_name 
+      FROM product 
+      WHERE product_id = ?`,
+      [req.params.productId]
     );
     await query(
-      `UPDATE item SET photos = "${productName[0].product_name}/${lastId}" WHERE item_id = ${lastId}`
+      `UPDATE item 
+      SET photos = ? 
+      WHERE item_id = ?`,
+      [`${productName[0].product_name}/${lastId}`, lastId]
     );
     await end();
 
@@ -153,7 +174,10 @@ router.post("/:productId/newphoto", async (req, res, next) => {
     if (err) throw new Error("couldn't upload file");
 
     await query(
-      `UPDATE product SET main_photo = "${fileName}" WHERE product_id = ${req.params.productId}`
+      `UPDATE product 
+      SET main_photo = ? 
+      WHERE product_id = ?`,
+      [fileName, req.params.productId]
     );
 
     await end();

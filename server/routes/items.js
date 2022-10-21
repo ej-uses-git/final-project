@@ -17,7 +17,8 @@ router.get("/:itemId/photos", async (req, res, next) => {
     result = await query(
       `SELECT photos
       FROM item
-      WHERE item_id = ${req.params.itemId}`
+      WHERE item_id = ?`,
+      [req.params.itemId]
     );
     result = result[0]?.photos;
     if (!result) return res.json([]);
@@ -51,7 +52,8 @@ router.post("/:itemId/uploadphotos", async (req, res, next) => {
     dirName = await query(
       `SELECT photos
       FROM item
-      WHERE item_id = ${req.params.itemId}`
+      WHERE item_id = ?`,
+      [req.params.itemId]
     );
 
     dirName = dirName[0]?.photos;

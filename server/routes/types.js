@@ -15,7 +15,8 @@ router.get("/:typeId/products", async (req, res, next) => {
     result = await query(
       `SELECT *
       FROM product
-      WHERE type_id = ${req.params.typeId}`
+      WHERE type_id = ?`,
+      [req.params.typeId]
     );
     await end();
     res.json(result);
