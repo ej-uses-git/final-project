@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getReq } from "../utilities/fetchUtils";
+import { getReq, STATIC_URL } from "../utilities/fetchUtils";
 import handleError from "../utilities/handleError";
 
 function Item(props) {
@@ -27,7 +27,7 @@ function Item(props) {
     <div className="item">
       {photoLinks.map((link) => (
         <img
-          src={`http://localhost:8090/images/items/${productName}/${props.itemId}/${link}`}
+          src={`${STATIC_URL}/images/items/${productName}/${props.itemId}/${link}`}
           alt={productName + " " + props.color}
           key={props.itemId}
           className="order-item-image | fs-200 fw-regular ff-body text-primary-800"

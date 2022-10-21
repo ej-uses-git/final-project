@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getReq } from "../utilities/fetchUtils";
+import { getReq, STATIC_URL } from "../utilities/fetchUtils";
 import handleError from "../utilities/handleError";
 
 function OrderItem(props) {
@@ -24,7 +24,7 @@ function OrderItem(props) {
       <>
         {photoLink && (
           <img
-            src={`http://localhost:8090/images/items/${item.product_name}/${item.item_id}/${photoLink}`}
+            src={`${STATIC_URL}/images/items/${item.product_name}/${item.item_id}/${photoLink}`}
             alt={item.item_color}
             className="order-item-image | fs-200 ff-body"
           />

@@ -151,7 +151,7 @@ function Payments(props) {
             </label>
             <input
               required
-              type="month"
+              type="date"
               name="expDate"
               id="exp-date"
               ref={expDate}
