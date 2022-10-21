@@ -90,6 +90,10 @@ input[type="file"] {
   border-radius: 1rem;
 }
 
+input[type="number"] {
+  width: 5rem;
+}
+
 /** general styling */
 body {
   background-color: hsl(26, 40%, 92%);

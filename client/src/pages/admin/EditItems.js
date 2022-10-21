@@ -19,20 +19,23 @@ function EditItems(props) {
 
   const [display, setDisplay] = useState([]);
 
-  const handleEdit = useCallback(async (e) => {
-    e.preventDefault();
+  const handleEdit = useCallback(
+    async (e) => {
+      e.preventDefault();
 
-    const [data, error] = await putReq(`/products/${productId}`, {
-      productName: productName.current.value,
-      description: productDescription.current.value,
-      cost: cost.current.value,
-    });
+      const [data, error] = await putReq(`/products/${productId}`, {
+        productName: productName.current.value,
+        description: productDescription.current.value,
+        cost: cost.current.value,
+      });
 
-    if (error) handleError(error, navigate);
-    if (!data) handleError(new Error("something went wrong"), navigate);
+      if (error) handleError(error, navigate);
+      if (!data) handleError(new Error("something went wrong"), navigate);
 
-    e.target.reset();
-  }, []);
+      e.target.reset();
+    },
+    [navigate, productId]
+  );
 
   useEffect(() => {
     const cachedItems = localCache.current;
@@ -45,29 +48,33 @@ function EditItems(props) {
       localCache.current = data;
       console.log("\n== data ==\n", data, "\n");
     })();
-  }, []);
+  }, [navigate, productId]);
 
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    try {
-      const files = fileInput.current.files;
-      const formData = new FormData();
-      for (let file of files) {
-        if (!file.name.includes(".jpeg") && !file.name.includes(".jpg")) return;
-        formData.append("file", file);
-        formData.append("type", "upload");
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        const files = fileInput.current.files;
+        const formData = new FormData();
+        for (let file of files) {
+          if (!file.name.includes(".jpeg") && !file.name.includes(".jpg"))
+            return;
+          formData.append("file", file);
+          formData.append("type", "upload");
+        }
+
+        const [, error] = await uploadFile(
+          `/products/${productId}/newphoto`,
+          formData
+        );
+        if (error) throw error;
+        alert("Upload succeeded!");
+      } catch (error) {
+        handleError(error, navigate);
       }
-
-      const [, error] = await uploadFile(
-        `/products/${productId}/newphoto`,
-        formData
-      );
-      if (error) throw error;
-      alert("Upload succeeded!");
-    } catch (error) {
-      handleError(error, navigate);
-    }
-  }, []);
+    },
+    [navigate, productId]
+  );
 
   return (
     <>

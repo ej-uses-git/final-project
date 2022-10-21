@@ -8,7 +8,7 @@ function Landing(props) {
     const storedUser = JSON.parse(localStorage.getItem("currentUser"));
     if (!storedUser) return navigate("/login");
     navigate("/users");
-  }, []);
+  }, [navigate]);
 
   return <></>;
 }

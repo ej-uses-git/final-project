@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Product from "../../components/Product";
-import { getReq, uploadFile } from "../../utilities/fetchUtils";
+import { getReq } from "../../utilities/fetchUtils";
 import handleError from "../../utilities/handleError";
 
 function EditProducts(props) {
@@ -12,24 +12,27 @@ function EditProducts(props) {
   const [selector, setSelector] = useState(0);
   const [display, setDisplay] = useState([]);
 
-  const handleChange = useCallback(async (e) => {
-    setSelector(e.target.value);
+  const handleChange = useCallback(
+    async (e) => {
+      setSelector(e.target.value);
 
-    const cachedProducts = localCache.current[e.target.value];
+      const cachedProducts = localCache.current[e.target.value];
 
-    if (cachedProducts.length) return setDisplay(cachedProducts);
+      if (cachedProducts.length) return setDisplay(cachedProducts);
 
-    const [data, error] = await getReq(
-      `/types/${parseInt(e.target.value) + 1}/products`
-    );
-    if (error) return handleError(error, navigate);
-    setDisplay(data);
-    localCache.current[e.target.value] = data;
-  }, []);
+      const [data, error] = await getReq(
+        `/types/${parseInt(e.target.value) + 1}/products`
+      );
+      if (error) return handleError(error, navigate);
+      setDisplay(data);
+      localCache.current[e.target.value] = data;
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     handleChange({ target: { value: 0 } });
-  }, []);
+  }, [handleChange]);
 
   return (
     <div className="edit-products">

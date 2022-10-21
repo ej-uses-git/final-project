@@ -6,9 +6,8 @@ import { getReq } from "../../utilities/fetchUtils";
 function LoggedIn(props) {
   const navigate = useNavigate();
 
-  const { clearCache, retrieveFromCache, writeToCache } = useContext(
-    CacheContext
-  );
+  const { clearCache, retrieveFromCache, writeToCache } =
+    useContext(CacheContext);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -35,7 +34,7 @@ function LoggedIn(props) {
       if (data.permission === "admin") return navigate(`admin/${data.user_id}`);
       return navigate(`${data.user_id}`);
     })();
-  }, []);
+  }, [clearCache, navigate, retrieveFromCache, writeToCache]);
 
   return <></>;
 }

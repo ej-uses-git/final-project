@@ -17,19 +17,22 @@ function NewProduct(props) {
     setType(e.target.value);
   }, []);
 
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    const [, error] = await postReq(`/products`, {
-      productName: productName.current.value,
-      description: description.current.value,
-      typeId: type,
-      cost: cost.current.value,
-      brand: brand.current.value,
-    });
-    if (error) return handleError(error, navigate);
-    alert("Creation succesful!");
-    e.target.reset();
-  }, []);
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const [, error] = await postReq(`/products`, {
+        productName: productName.current.value,
+        description: description.current.value,
+        typeId: type,
+        cost: cost.current.value,
+        brand: brand.current.value,
+      });
+      if (error) return handleError(error, navigate);
+      alert("Creation succesful!");
+      e.target.reset();
+    },
+    [navigate, type]
+  );
 
   return (
     <>

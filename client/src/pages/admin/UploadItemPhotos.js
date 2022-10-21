@@ -10,27 +10,31 @@ function UploadItemPhotos(props) {
 
   const fileInput = useRef();
 
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    try {
-      const files = fileInput.current.files;
-      const formData = new FormData();
-      for (let file of files) {
-        if (!file.name.includes(".jpeg") && !file.name.includes(".jpg")) return;
-        formData.append("file", file);
-        formData.append("type", "upload");
-      }
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        const files = fileInput.current.files;
+        const formData = new FormData();
+        for (let file of files) {
+          if (!file.name.includes(".jpeg") && !file.name.includes(".jpg"))
+            return;
+          formData.append("file", file);
+          formData.append("type", "upload");
+        }
 
-      const [, error] = await uploadFile(
-        `/items/${itemId}/uploadphotos`,
-        formData
-      );
-      if (error) throw error;
-      alert("Upload succeeded!");
-    } catch (error) {
-      handleError(error, navigate);
-    }
-  }, []);
+        const [, error] = await uploadFile(
+          `/items/${itemId}/uploadphotos`,
+          formData
+        );
+        if (error) throw error;
+        alert("Upload succeeded!");
+      } catch (error) {
+        handleError(error, navigate);
+      }
+    },
+    [itemId, navigate]
+  );
 
   return (
     <>

@@ -64,7 +64,7 @@ function App() {
     } else {
       setCache(prev => ({ ...prev, [target]: { ...data } }));
     }
-  }, []);
+  }, [cache]);
 
   const cacheUtils = {
     clearCache,

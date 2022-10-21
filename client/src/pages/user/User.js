@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import AdminNavbar from "../../components/AdminNavbar";
 import CustomerNavbar from "../../components/CustomerNavbar";
@@ -18,6 +24,7 @@ function User(props) {
 
   const storedUser = localStorage.getItem("currentUser");
   const [info, setInfo] = useState(retrieveFromCache("userInfo"));
+  const sentRequests = useRef(false);
 
   const getFromServer = useCallback(
     async (item, path) => {
@@ -45,12 +52,14 @@ function User(props) {
   }, [navigate, retrieveFromCache, writeToCache, userId, storedUser]);
 
   useEffect(() => {
+    if (sentRequests.current) return;
     const { permission, order_id } = info;
     if (!permission) return;
     setPerm(permission);
     if (permission !== "admin") {
       (async () => {
         if (!order_id) return;
+        sentRequests.current = true;
         await getFromServer(
           "userCart",
           `/users/${storedUser}/cart/${order_id}`

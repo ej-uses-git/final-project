@@ -8,7 +8,7 @@ function Info(props) {
 
   useEffect(() => {
     setInfo(retrieveFromCache("userInfo"));
-  }, []);
+  }, [retrieveFromCache]);
 
   return (
     <ul className="user-info | bg-primary-600">

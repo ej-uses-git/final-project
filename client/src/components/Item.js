@@ -21,7 +21,7 @@ function Item(props) {
       if (!data) return;
       setPhotoLinks(data);
     })();
-  }, []);
+  }, [navigate, props.itemId, photoLinks.length]);
 
   return (
     <div className="item">

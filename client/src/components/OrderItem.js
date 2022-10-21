@@ -8,6 +8,8 @@ function OrderItem(props) {
 
   const [photoLink, setPhotoLink] = useState();
 
+  const { item, onClick } = props;
+
   useEffect(() => {
     (async () => {
       const [data, error] = await getReq(`/items/${item.item_id}/photos`);
@@ -15,9 +17,8 @@ function OrderItem(props) {
       if (!data) return;
       setPhotoLink(data[0]);
     })();
-  }, []);
+  }, [item.item_id, navigate]);
 
-  const { item, onClick } = props;
   return (
     <div className="order-item | bg-primary-600">
       <>

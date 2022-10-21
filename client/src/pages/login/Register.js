@@ -48,54 +48,57 @@ function Register(props) {
 
   const goBack = useCallback(() => {
     setPage(1);
-  });
-
-  const handlePageTwo = useCallback(async (e) => {
-    e.preventDefault();
-    let data, error;
-
-    [data, error] = await usermanageReq("/register/check", {
-      username: firstPageValues.current.username,
-      email: email.current.value,
-    });
-    if (error) return handleError(error, navigate);
-    if (!data) {
-      email.current.setCustomValidity(
-        "Information already taken. Try changing your username or email."
-      );
-      setTimeout(() => {
-        e.target.requestSubmit();
-      }, 1);
-      return;
-    }
-
-    [data, error] = await usermanageReq("/register", {
-      username: firstPageValues.current.username,
-      password: encryptPassword(firstPageValues.current.passwordA),
-      email: email.current.value,
-      phoneNumber: phoneNum.current.value,
-      address: address.current.value,
-      permission: "customer",
-    });
-    if (error) return handleError(error, navigate);
-    const userId = data;
-    localStorage.setItem("currentUser", userId);
-
-    [data, error] = await postReq(`/orders/neworder/${userId}`);
-    if (error) return handleError(error, navigate);
-    const cartId = data;
-
-    writeToCache("userInfo", {
-      userId,
-      username: firstPageValues.current.username,
-      email: email.current.value,
-      address: address.current.value,
-      phoneNum: phoneNum.current.value,
-      permission: "customer",
-      cartId,
-    });
-    navigate("/users");
   }, []);
+
+  const handlePageTwo = useCallback(
+    async (e) => {
+      e.preventDefault();
+      let data, error;
+
+      [data, error] = await usermanageReq("/register/check", {
+        username: firstPageValues.current.username,
+        email: email.current.value,
+      });
+      if (error) return handleError(error, navigate);
+      if (!data) {
+        email.current.setCustomValidity(
+          "Information already taken. Try changing your username or email."
+        );
+        setTimeout(() => {
+          e.target.requestSubmit();
+        }, 1);
+        return;
+      }
+
+      [data, error] = await usermanageReq("/register", {
+        username: firstPageValues.current.username,
+        password: encryptPassword(firstPageValues.current.passwordA),
+        email: email.current.value,
+        phoneNumber: phoneNum.current.value,
+        address: address.current.value,
+        permission: "customer",
+      });
+      if (error) return handleError(error, navigate);
+      const userId = data;
+      localStorage.setItem("currentUser", userId);
+
+      [data, error] = await postReq(`/orders/neworder/${userId}`);
+      if (error) return handleError(error, navigate);
+      const cartId = data;
+
+      writeToCache("userInfo", {
+        userId,
+        username: firstPageValues.current.username,
+        email: email.current.value,
+        address: address.current.value,
+        phoneNum: phoneNum.current.value,
+        permission: "customer",
+        cartId,
+      });
+      navigate("/users");
+    },
+    [navigate, writeToCache]
+  );
 
   useEffect(() => {
     if (page !== 1 || !firstPageValues.current) return;

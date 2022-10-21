@@ -9,24 +9,27 @@ function Login(props) {
   const username = useRef();
   const password = useRef();
 
-  const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    const [data, error] = await usermanageReq("/login", {
-      username: username.current.value,
-      password: password.current.value,
-    });
-    if (error) return handleError(error, navigate);
-    if (!data) {
-      username.current.setCustomValidity("False info.");
-      setTimeout(() => {
-        e.target.requestSubmit();
-      }, 1);
-      return;
-    }
-    const userId = data;
-    localStorage.setItem("currentUser", userId);
-    return navigate(`/users`);
-  }, []);
+  const handleSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const [data, error] = await usermanageReq("/login", {
+        username: username.current.value,
+        password: password.current.value,
+      });
+      if (error) return handleError(error, navigate);
+      if (!data) {
+        username.current.setCustomValidity("False info.");
+        setTimeout(() => {
+          e.target.requestSubmit();
+        }, 1);
+        return;
+      }
+      const userId = data;
+      localStorage.setItem("currentUser", userId);
+      return navigate(`/users`);
+    },
+    [navigate]
+  );
 
   return (
     <div className="login-page flex-col">
