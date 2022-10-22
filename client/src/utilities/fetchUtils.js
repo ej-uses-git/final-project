@@ -1,6 +1,6 @@
-const USERMANAGE_URL = "http://localhost:5000/usermanage";
-const SERVER_URL = "http://localhost:8090/api";
-const STATIC_URL = "http://localhost:8090";
+const USERMANAGE_URL = "http://192.168.86.62:5000/usermanage";
+const SERVER_URL = "http://192.168.86.62:8090/api";
+const STATIC_URL = "http://192.168.86.62:8090";
 
 async function usermanageReq(path, body) {
   try {

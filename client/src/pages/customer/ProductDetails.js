@@ -38,7 +38,7 @@ function ProductDetails(props) {
         const oldAmount = copy[changedIndex].amount;
         copy[changedIndex] = {
           ...copy[changedIndex],
-          amount: oldAmount + parseFloat(data.amount),
+          amount: parseFloat(oldAmount) + parseFloat(data.amount),
         };
         return writeToCache("userCart", copy);
       }

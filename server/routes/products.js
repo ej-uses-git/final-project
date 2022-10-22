@@ -115,7 +115,7 @@ router.post("/:productId", async function (req, res, next) {
     await connect();
     await query(
       `INSERT INTO item (item_color, item_amount, product_id) 
-      // VALUES(?, ?, ?)`,
+      VALUES(?, ?, ?)`,
       [req.body.color, req.body.amount, req.params.productId]
     );
     const selectIdResult = await query(`SELECT LAST_INSERT_ID();`);
